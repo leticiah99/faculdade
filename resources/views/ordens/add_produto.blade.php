@@ -1,4 +1,4 @@
-@extends('layouts.dashboard') 
+@extends('layouts.dashboard')
 @section('content-title', 'ADICIONAR PRODUTOS')
 
 
@@ -23,7 +23,12 @@
         <form action="{{route('adicionar_produto', [$ordemServico->id]) }}" method="post"> 
         @csrf
 
+<<<<<<< HEAD
         <div class="row">
+=======
+    <form action="{{route('adicionar_produto', [$ordemServico->id]) }}" method="post">
+    @csrf
+>>>>>>> b9143ca (:tada: _Não deixa adicionar produto na ordem de serviço quando nao tem no estoque)
 
             <div class="input-group col-md-12">
                 <select name="produto" class="form-select">
@@ -35,6 +40,7 @@
  
                 <div class="col-md-4">
                     <div class="input-group">
+<<<<<<< HEAD
                         <input id="quantidade" type="number" class="form-control @error('quantidade') is-invalid @enderror" name="quantidade" value="{{ old('quantidade') }}" required autocomplete="quantidade" placeholder="Quantidade" >
                         @error('quantidade')
                             <span class="invalid-feedback" role="alert">
@@ -65,12 +71,37 @@
              <br></br>
 
              
+=======
+                        <input type="text" placeholder="Quantidade" class="form-control" name="quantidade" id="quantidade">
+                    </div>
+                </div>
+
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                </div>
+
+             </div>
+
+             <br></br>
+
+
+
+
+>>>>>>> b9143ca (:tada: _Não deixa adicionar produto na ordem de serviço quando nao tem no estoque)
     <div class="col-md-12">
         <h4>Produtos adicionados</h4>
 
         @if(!count($ordemServico->produtos))
             <div class="alert alert-info">Nenhum produto adicionado.</div>
         @endif
+
+        <div class="flash-message">
+            @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+                @if(Session::has('alert-' . $msg))
+                    <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+                @endif
+            @endforeach
+        </div>
 
         @if(count($ordemServico->produtos))
 
@@ -90,18 +121,24 @@
                     $valor_total = 0;
                 @endphp
                 @foreach($ordemServico->produtos as $produto)
- 
+
                 <tr>
                     <td style="width: 20.00%">{{$produto->nome}} </td>
                     <td style="width: 20.00%">R$ {{$produto->valor_unit_venda}}</td>
                     <td style="width: 20.00%">{{$produto->pivot->quantidade}}</td>
                     <td style="width: 20.00%">R$ {{$produto->pivot->valor}}</td>
-                    <td style="width: 10.00%"><a class="btn btn-danger"  href="{{route ('remover_produto', [$ordemServico->id, $produto->id])}}">Excluir</a></td>
+                    <td style="width: 10.00%"><a class="btn btn-danger"  href="{{route ('remover_produto', [$ordemServico->id, $produto->id, $produto->pivot->quantidade])}}">Excluir</a></td>
 
                 </tr>
                     @php
+<<<<<<< HEAD
                         $valor_total += $produto->pivot->valor; 
                     @endphp 
+=======
+                        $valor_total += $produto->pivot->valor;
+                        $produto->quantidade = $produto->quantidade - $produto->pivot->quantidade;
+                    @endphp
+>>>>>>> b9143ca (:tada: _Não deixa adicionar produto na ordem de serviço quando nao tem no estoque)
                 @endforeach
             </tbody>
             <tfooter>
@@ -110,12 +147,18 @@
                 </tr>
             </tfooter>
         </table>
-        @endif 
+        @endif
     </div>
 
+<<<<<<< HEAD
    
     
     </form>
+=======
+
+
+</form>
+>>>>>>> b9143ca (:tada: _Não deixa adicionar produto na ordem de serviço quando nao tem no estoque)
 </div>
 
 @endsection

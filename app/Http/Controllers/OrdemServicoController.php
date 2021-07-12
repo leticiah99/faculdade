@@ -138,21 +138,22 @@ class OrdemServicoController extends Controller
         }
 
         $produto = Produto::find($request->produto);
-
         $total = $produto->quantidade - $request->quantidade;
 
-        if($total < 0){
-            return "Erro nivel de estoque abaixo do necessário";
+        if($total <= 0){
+            $request->session()
+                ->flash('alert-danger', 'Produtos insuficientes no estoque.');
+                return redirect()->route('adicionar_produto', ['id' => $ordemServico->id]);
+        }else{
+            $produto->update(['quantidade' => $total]);
+            $valor_final = $produto->valor_unit_venda * $request->quantidade;
+            $ordemServico
+                ->produtos()
+                ->attach($produto,  ['valor' => $valor_final, 'quantidade' => $request->quantidade ]);
+
+                return redirect()->route('adicionar_produto', ['id' => $ordemServico->id]);
+
         }
-
-        $produto->update(['quantidade' => $total]);
-
-        $valor_final = $produto->valor_unit_venda * $request->quantidade;
-
-        $ordemServico->produtos()->attach($produto,  ['valor' => $valor_final, 'quantidade' => $request->quantidade ]);
-
-        return redirect()->route('adicionar_produto', ['id' => $ordemServico->id]);
-
     }
 
     public function removeProduto($id, $produto_id){
@@ -164,6 +165,10 @@ class OrdemServicoController extends Controller
 
 
         $produto = Produto::find($produto_id);
+        $total = $produto->quantidade + $request->quantidade;
+
+        var_dump($total);
+        return;
 
         if(!$produto)
             return "Erro ao remover o produto.";
