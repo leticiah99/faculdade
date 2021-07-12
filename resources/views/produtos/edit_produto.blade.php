@@ -8,7 +8,7 @@
         
     <form action="{{ route('atualizar_produto', ['id' => $produto->id]) }}" method="post">  
       
-        @csrf 
+    @csrf 
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">

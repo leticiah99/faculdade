@@ -14,6 +14,11 @@
             </div>  
 
             <div class="form-group" hidden>               
+                <label for="phone">TELEFONE</label>
+                <input type="text" class="form-control" name="phone" id="phone" value="{{$user->phone}}">                  
+            </div>  
+
+            <div class="form-group" hidden>               
                 <label for="email">E-MAIL</label>
                 <input type="text" class="form-control" name="email" id="email" value="{{$user->email}}">                  
             </div>  
@@ -26,7 +31,6 @@
                     <option value="Admin">Admin</option>
                 </select>
             </div>    
- 
 
             <button type="submit" class="btn btn-success">Salvar</button>    
             <td><a class="btn btn-danger"  href="{{ route('listar_user') }}">Cancelar</a> 

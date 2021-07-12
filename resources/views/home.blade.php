@@ -29,7 +29,7 @@
     </div>
     
         @if(!count($ordens))
-            <div class="alert alert-info">Nenhuma ordem de serviço cadastrada</div>
+            <div class="alert alert-info">Nenhuma ordem de serviço encontrada.</div>
         @endif
 
 

@@ -3,40 +3,76 @@
 
 
 @section('content')
+<!-- CSRF Token --> 
+<meta name="csrf-token" content="{{ csrf_token() }}">
     <div class="container">
         <form action="{{ route('salvar_user') }}" method="post"> 
         @csrf
 
             <div class="form-group">               
                 <label for="name">NOME</label>
-                <input type="text" class="form-control" name="name" id="name">                  
+                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" >
+                    @error('name')
+                        <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror                  
+            </div>  
+
+            <div class="form-group">               
+                <label for="phone">TELEFONE</label>
+                <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone" >
+                    @error('phone')
+                        <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror                    
             </div>  
 
             <div class="form-group">               
                 <label for="email">E-MAIL</label>
-                <input type="text" class="form-control" name="email" id="email">                  
+                <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" >
+                    @error('email')
+                        <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror                   
             </div> 
 
             <div class="form-group">               
                 <label for="password">SENHA</label>
-                <input type="password" class="form-control" name="password" id="password">                  
+                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ old('password') }}" required autocomplete="password" >
+                    @error('password')
+                        <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror                    
             </div> 
-
+ 
             <div class="form-group">               
-                <label for="password">CONFIRMAR SENHA</label>
-                <input type="password" class="form-control" name="password" id="password">                  
+                <label for="password_confirmation">CONFIRMAR SENHA</label>
+                <input id="password_confirmation" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" value="{{ old('password_confirmation') }}" required autocomplete="password_confirmation" >
+                    @error('password_confirmation')
+                        <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror                   
             </div>    
 
             <div class="form-group">
-                <label for="">CARGO</label>
-                <select name="role" id=""  class="form-control">
-                    <option value=""></option>
-                    <option value="1">Funcionário</option>
-                    <option value="2">Admin</option>
-                    
+                <label for="role">TIPO DE USUÁRIO</label>
+                <select name="role" id="role"  class="form-select @error('role') is-invalid @enderror" name="role" value="{{ old('role') }}" required autocomplete="role">
+                    <option value="">Selecione o tipo de usuário</option>
+                    <option value="1">Administrador</option>
+                    <option value="2">Funcionário</option>    
                 </select>
+                    @error('role')
+                        <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror 
             </div>
 
-            <button type="submit" class="btn btn-primary">Cadastrar</button>        
+            <button type="submit" class="btn btn-success">Cadastrar</button>        
     </div>
 @endsection

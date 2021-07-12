@@ -31,20 +31,17 @@
                     <option>Selecione o produto</option>
 
                     @foreach($produtos as $produto)
+                        @if($produto->quantidade > 0)
                         <option value="{{$produto->id}}">{{$produto->nome}}</option>
+                        @endif
                     @endforeach
                 </select>
-
-              
 
                 <div class="col-md-4">
                     <div class="input-group">
                         <input type="text" placeholder="Quantidade" class="form-control" name="quantidade" id="quantidade"> 
                     </div>
                 </div>
-
-                
-
                           
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-primary">Adicionar</button>
@@ -61,9 +58,8 @@
         <h4>Produtos adicionados</h4>
 
         @if(!count($ordemServico->produtos))
-            <div class="alert alert-info">Nenhum produto adicionado</div>
+            <div class="alert alert-info">Nenhum produto adicionado.</div>
         @endif
-
 
         @if(count($ordemServico->produtos))
 
@@ -71,45 +67,42 @@
             <thead>
                 <tr>
                     <th>Produto</th>
-                    <th>Marca</th>
-                    <th>Categoria</th>
-                    <th>Preço</th>
+                    <th>Preço Unitário</th>
+                    <th>Quantidade</th>
+                    <th>Sub Total</th>
                     <th></th>
                 </tr>
             </thead>
 
             <tbody>
-                @php  
+                @php
                     $valor_total = 0;
-                    
                 @endphp
                 @foreach($ordemServico->produtos as $produto)
-                
+ 
                 <tr>
                     <td style="width: 20.00%">{{$produto->nome}} </td>
-                    <td style="width: 20.00%"> {{$produto->marca}} </td>
-                    <td style="width: 20.00%"> {{$produto->categoria->nome}} </td>
-
-                    <td style="width: 20.00%">{{$produto->valor_unit_venda}}</td>
-                    <td style="width: 20.00%">{{$produto->quantidade}}</td>
-                    <td style="width: 20.00%">{{$valor_total}}</td>
-        
+                    <td style="width: 20.00%">R$ {{$produto->valor_unit_venda}}</td>
+                    <td style="width: 20.00%">{{$produto->pivot->quantidade}}</td>
+                    <td style="width: 20.00%">R$ {{$produto->pivot->valor}}</td>
                     <td style="width: 10.00%"><a class="btn btn-danger"  href="{{route ('remover_produto', [$ordemServico->id, $produto->id])}}">Excluir</a></td>
-                    
+
                 </tr>
+                    @php
+                        $valor_total += $produto->pivot->valor; 
+                        $produto->quantidade = $produto->quantidade - $produto->pivot->quantidade; 
+
+                    @endphp 
+                    <td colspan="5">quantidade de produtos: {{$produto->quantidade}}</td>
                 @endforeach
             </tbody>
             <tfooter>
                 <tr>
                     <td colspan="5">Valor total de produtos: R$ {{$valor_total}}</td>
-
                 </tr>
             </tfooter>
-
-
-
         </table>
-        @endif
+        @endif 
     </div>
 
    

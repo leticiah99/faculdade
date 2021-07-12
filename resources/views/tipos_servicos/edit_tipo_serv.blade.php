@@ -20,7 +20,7 @@
                 <input type="text" class="form-control" name="preco" id="preco" value="{{$tipos_servicos->preco}}">                  
             </div> 
 
-            <button type="submit" class="btn btn-primary">Salvar</button>  
+            <button type="submit" class="btn btn-success">Salvar</button>  
             <td><a class="btn btn-danger" onclick="return confirm('Tem certeza que deseja cancelar?')" href="{{ route('listar_tipo_serv') }}">Cancelar</a> 
       
     </div>

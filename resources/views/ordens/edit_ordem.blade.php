@@ -52,7 +52,7 @@
             </div>  
         
             <div class="form-group">
-                <label for="">STATUS</label>
+                <label for="">ALTERAR STATUS</label>
                 <select name="status" id="status" class="form-select">             
                     <option value="{{$ordemServico->status}}" selected>{{$ordemServico->status}}</option>
                     <option value="1">Aguardando</option>

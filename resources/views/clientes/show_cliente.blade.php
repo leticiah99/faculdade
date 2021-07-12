@@ -6,9 +6,9 @@
 
 
     <div class="container-xl">
-        @csrf
+        @csrf 
 
-      <!--  <a href="{{route('relatorio_cliente',  ['id' => $cliente->id])}}" target="_blank" > Gerar relatório do cliente </a> -->
+        <a href="{{route('relatorio_cliente',  ['id' => $cliente->id])}}" target="_blank" > Gerar relatório do cliente </a> 
 
     <div class="row">
         <div class="col-md-6">
@@ -81,7 +81,7 @@
          
             <br>
             @if(!count($cliente->ordens))
-            <div class="alert alert-info">Nenhuma ordem de serviço cadastrada</div>
+            <div class="alert alert-info">Nenhuma ordem de serviço encontrada.</div>
             @endif
 
 

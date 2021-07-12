@@ -13,7 +13,7 @@
                     <button type="submit" class="btn btn-dark">Pesquisar</button>
                 </form> 
             </div>
-        </div>
+        </div> 
 
         <div class="col-md-2">
             <div class="form-group">
@@ -56,6 +56,7 @@
                 </tr>
             </tbody>
         </table>
+        {{ $clientes->links() }}
     </div>
 </div>
 @endsection

@@ -7,7 +7,7 @@
     <!-- CSRF Token --> 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Assistencia') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -86,6 +86,20 @@
                             </div>
 
                             <div class="form-group row">
+                                <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Telefone:') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone" autofocus>
+
+                                    @error('phone')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail:') }}</label>
 
                                 <div class="col-md-6">
@@ -120,48 +134,6 @@
                                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                                 </div>
                             </div>
-
-
-
-
-                            <div class="form-group">               
-                                <label for="logradouro">LOGRADOURO</label>
-                                <input type="text" class="form-control" name="logradouro" id="logradouro">                  
-                            </div>  
-
-                            <div class="form-group">               
-                                <label for="numero">NÚMERO</label>
-                                <input type="text" class="form-control" name="numero" id="numero">                  
-                            </div> 
-
-                            <div class="form-group">               
-                                <label for="complemento">COMPLEMENTO</label>
-                                <input type="text" class="form-control" name="complemento" id="complemento">                  
-                            </div> 
-
-
-                            <div class="form-group">               
-                                <label for="bairro">BAIRRO</label>
-                                <input type="text" class="form-control" name="bairro" id="bairro">                  
-                            </div> 
-
-                            <div class="form-group">               
-                                <label for="cidade">CIDADE</label>
-                                <input type="text" class="form-control" name="cidade" id="cidade">                  
-                            </div> 
-
-                            <div class="form-group">               
-                                <label for="estado">ESTADO</label>
-                                <input type="text" class="form-control" name="estado" id="estado">                  
-                            </div> 
-
-
-
-
-
-
-
-
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">

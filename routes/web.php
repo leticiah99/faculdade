@@ -19,13 +19,11 @@ Route::get('/', function () {
 Auth::routes(); 
 
 //Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/home', 'OrdemServicoController@index')->name('listar_ordem');
-
 
 Route::resource('produtos', 'ProdutoController');
 Route::get('/produtos','ProdutoController@index')->name('listar_produto');
 Route::any('/produtos/pesquisar', 'ProdutoController@search')->name('pesquisar_produto');
-Route::get('/produto/novo','ProdutoController@create');
+Route::get('/produto/novo','ProdutoController@create')->name('criar_produto');
 Route::post('/produto/novo','ProdutoController@store')->name('salvar_produto'); //salva_produto=nome no html
 Route::get('/produtos/{id}','ProdutoController@show')->name('detalhar_produto');
 Route::get('/produtos/excluir/{id}','ProdutoController@destroy')->name('excluir_produto');
@@ -102,44 +100,56 @@ Route::any('/usuarios/pesquisar', 'UserController@search')->name('pesquisar_user
 Route::get('/usuario/novo','UserController@create');
 Route::post('/usuario/novo','UserController@store')->name('salvar_user');
 Route::get('/usuario/excluir/{id}','UserController@destroy')->name('excluir_user');
-Route::get('/usuario/editar/{id}','UserController@edit')->name('editar_user'); 
+Route::get('/usuario/editar/{id}','UserController@edit')->name('editar_user');
 Route::post('/usuario/editar/{id}','UserController@update')->name('atualizar_user');
+
+Route::get('/perfil/editar/{id}','UserController@editProfile')->name('editar_perfil');
+Route::post('/perfil/editar/{id}','UserController@updateProfile')->name('atualizar_perfil');
+
 Route::get('/usuario/{id}','UserController@show')->name('detalhar_user');
 Route::get('usuarios', 'UserController@index')->name('listar_user');
 Auth::routes();
 
 //================================================================================================================//
 Route::resource('ordens', 'OrdemServicoController');
-//Route::get('ordens', 'OrdemServicoController@index')->name('listar_ordem');
+Route::get('/ordens', 'OrdemServicoController@index')->name('listar_ordem');
 Route::any('/ordens/pesquisar', 'OrdemServicoController@search')->name('pesquisar_ordem');
-Route::get('/ordem/novo','OrdemServicoController@create');
-Route::post('/ordem/novo','OrdemServicoController@store')->name('salvar_ordem'); //salva_produto=nome no html
+Route::get('/ordem/cadastrar','OrdemServicoController@create');
+Route::post('/ordem/cadastrar','OrdemServicoController@store')->name('salvar_ordem'); 
 Route::get('/ordens/{id}','OrdemServicoController@show')->name('detalhar_ordem');
 Route::get('/ordem/excluir/{id}','OrdemServicoController@destroy')->name('excluir_ordem');
-Route::get('/ordem/editar/{id}','OrdemServicoController@edit')->name('editar_ordem');
-Route::post('/ordem/editar/{id}','OrdemServicoController@update')->name('atualizar_ordem');
+Route::get('/ordens/editar/{id}','OrdemServicoController@edit')->name('editar_ordem');
+Route::post('/ordens/editar/{id}','OrdemServicoController@update')->name('atualizar_ordem');
+Route::get('/relatorio/ordem', 'OrdemServicoController@geraPdfOs')->name('relatorio_os'); //================= AQUIIIIIIIIIIIII
+Route::get('/relatorio/ordem/esp', 'OrdemServicoController@geraPdfEsp')->name('relatorio_esp');
+
 Route::post('/ordem/finalizar/{id}','OrdemServicoController@finalizar')->name('finalizar_ordem');
+Route::get('/relatorio/os', 'RelatorioController@gerarRelatorioOs');
+
 
 Route::get('/ordens/{id}/adicionar-produtos','OrdemServicoController@addProduto')->name('adicionar_produto');
 Route::post('/ordens/{id}/adicionar-produtos','OrdemServicoController@addProdutoSave')->name('salvar_produto_os');
 Route::get('/ordens/{id}/remover-produtos/{produto_id}','OrdemServicoController@removeProduto')->name('remover_produto');
 
-
-//================================================================================================================//
-
-Route::resource('tipos-servico', 'TipoServicoController');
-Route::any('/tipos-servico/pesquisar', 'TipoServicoController@search')->name('pesquisar_tipo_serv');
-Route::get('/tipo-servico/novo','TipoServicoController@create');
-Route::post('/tipo-servico/novo','TipoServicoController@store')->name('salvar_tipo_serv');
-Route::get('/tipos-servico/visualizar','TipoServicoController@show')->name('listar_tipo_serv');
-Route::get('/tipo-servico/excluir/{id}','TipoServicoController@destroy')->name('excluir_tipo_serv');
-Route::get('/tipo-servico/editar/{id}','TipoServicoController@edit')->name('editar_tipo_serv'); 
-Route::post('/tipo-servico/editar/{id}','TipoServicoController@update')->name('atualizar_tipo_serv');
-
 Route::get('/ordens/{id}/adicionar-servicos','OrdemServicoController@addServico')->name('adicionar_servico');
 Route::post('/ordens/{id}/adicionar-servicos','OrdemServicoController@addServicoSave')->name('salvar_servico_os');
 Route::get('/ordens/{id}/remover-servicos/{tipo_servico_id}','OrdemServicoController@removeServico')->name('remover_servico');
 
-Route::get('pdf', 'RelatorioController@geraPdf');
-Route::get('/relatorio/os', 'RelatorioController@gerarRelatorioOs');
-Route::get('/relatorio/clientes', 'RelatorioController@gerarRelatorioCliente');
+//================================================================================================================//
+
+Route::resource('tipos-servico', 'TipoServicoController');
+Route::get('tipos-servico', 'TipoServicoController@index')->name('listar_tipo_serv');
+Route::any('/tipos-servico/pesquisar', 'TipoServicoController@search')->name('pesquisar_tipo_serv');
+Route::get('/tipo-servico/novo','TipoServicoController@create');
+Route::post('/tipo-servico/novo','TipoServicoController@store')->name('salvar_tipo_serv');
+Route::get('/tipo-servico/excluir/{id}','TipoServicoController@destroy')->name('excluir_tipo_serv');
+Route::get('/tipo-servico/editar/{id}','TipoServicoController@edit')->name('editar_tipo_serv'); 
+Route::post('/tipo-servico/editar/{id}','TipoServicoController@update')->name('atualizar_tipo_serv');
+
+
+
+
+
+
+
+

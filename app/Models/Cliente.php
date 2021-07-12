@@ -18,17 +18,12 @@ class Cliente extends Model
     }
  
     public function search($filter = null){
-
         $results = $this->where(function ($query) use ($filter){
             if($filter){
-                $query->where('nome', 'LIKE', "%{$filter}%");
-               
+                $query->where('nome', 'LIKE', "%{$filter}%");    
             }
- 
-        } )->paginate();
-
+        } )->paginate(10);
         return $results; 
- 
     }
 }
 ?>

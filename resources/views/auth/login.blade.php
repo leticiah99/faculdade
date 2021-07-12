@@ -122,7 +122,7 @@
                                                 {{ __('Esqueci minha senha.') }}
                                             </a>
                                         @endif
-                                    </div>
+                                    </div> 
                                 </div>
                             </form>
                         </div>

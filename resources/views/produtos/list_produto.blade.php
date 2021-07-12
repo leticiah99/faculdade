@@ -15,12 +15,14 @@
             </div>
         </div>
 
+        @if (Gate::allows('isAdmin'))
         <div class="col-md-2">
             <div class="form-group">
                 @csrf          
                 <a href="{{ route('salvar_produto') }}"  class="btn btn-success" >Cadastrar</a> <br></br>  
             </div>
         </div>
+        @endif
     </div>
 
     
@@ -54,12 +56,14 @@
                 <tr>
                 <td>{{$produto->nome}}</td>
                 <td>{{$produto->marca}}</td>
-                <td>{{$produto->categoria->nome}}</td>         
+                <td>{{$produto->categoria->nome}}</td> 
                 <td>{{$produto->quantidade}}</td>
                 <td>R${{$produto->valor_unit_venda}}</td>        
                 <td style="width: 10.00%"><a class="btn btn-secondary text-light " style="background-color:grey"  href="{{route('detalhar_produto', $produto->id)}}">Visualizar</a>
+                @if (Gate::allows('isAdmin'))
                 <td style="width: 8.00%"><a class="btn btn-primary" href="{{ route('editar_produto', ['id'=>$produto->id])}}">Editar</a></td> 
                 <td style="width: 10.00%"><a class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir?')" href="{{route('excluir_produto', $produto->id)}}">Excluir</a>
+                @endif
             @empty
             <tr>
                 <td>Não existem produtos cadastrados.</td>
@@ -68,6 +72,7 @@
 
         </tbody>
     </table> 
+    {{ $produtos->links() }}
     @endif
    
 @endsection

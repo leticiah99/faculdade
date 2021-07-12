@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 use App\Models\Produto;
+use App\Models\OrdemServico;
 use App\Models\CategoriaProduto;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request; 
-   
+
     class ProdutoController extends Controller
     {
         protected $request;
@@ -18,7 +19,7 @@ use Illuminate\Http\Request;
         }   
 
         public function index(Produto $produto){
-            $produtos = $produto->all();
+            $produtos = $produto->paginate(10);                        
             return view('produtos.list_produto', compact('produtos'));
         } 
 
@@ -32,20 +33,32 @@ use Illuminate\Http\Request;
         }
     
         public function store(Request $request){
+            $validated = $request->validate([
+                'marca' => 'required',
+                'nome' => 'required',
+                'voltagem' => 'required',
+                'modelo' => 'required',
+                'quantidade' => 'required|numeric',
+                'valor_unit_custo' =>  'required',
+                'valor_unit_venda' =>    'required',
+                'categoria_produto_id' => 'required',
+            ]);
+
             Produto::create([
                 'id' => $request->id,
                 'marca' => $request->marca,
-                'nome' => $request->nome,
+                'nome' => $request->nome, 
                 'voltagem' => $request->voltagem,
                 'modelo' => $request->modelo,
                 'quantidade' => $request->quantidade,
                 'valor_unit_custo' => $request->valor_unit_custo,
                 'valor_unit_venda' => $request->valor_unit_venda,
-                'categoria_produto_id' => $request->categoria_produto_id,      
+                'categoria_produto_id' => $request->categoria_produto_id,       
             ]);
-            $request->session()->flash('alert-success', 'Produto cadastrado com sucesso.');
-            return redirect()->route('listar_produto');
-            //return view('produtos.create_produto',  compact('produto', 'categorias'));
+        
+           $request->session()->flash('alert-success', 'Produto cadastrado com sucesso.');
+           return redirect()->route('listar_produto');
+           //return redirect()->back()->with('error', 'Não foi possível cadastrar o produto.');
 
         }
 
@@ -58,7 +71,6 @@ use Illuminate\Http\Request;
             if (Gate::allows('isAdmin')) {
                 $produto=Produto::findOrFail($id); 
                 $produto->delete();
-                //return "Produto excluído com sucesso.";
                 $request->session()->flash('alert-success', 'Produto excluído com sucesso.');
                 return redirect()->route('listar_produto');
 
@@ -71,7 +83,6 @@ use Illuminate\Http\Request;
             $categorias = CategoriaProduto::all();
                 if (Gate::allows('isAdmin')) {
                     $produto = Produto::findOrFail($id); 
-
                     return view('produtos.edit_produto', compact('produto', 'categorias')); 
                 } else {
                     return "Você não tem permissão para realizar esta operação.";
@@ -91,7 +102,10 @@ use Illuminate\Http\Request;
                 'categoria_produto_id' => $request->categoria_produto_id,
             ]);            
             $produtos = $produto->all();
-            return view('produtos.list_produto',['produtos' => $produtos]);
+            //return view('produtos.list_produto',['produtos' => $produtos]);
+            $request->session()->flash('alert-success', 'Dados do produto atualizados com sucesso.');
+            return redirect()->route('listar_produto');
+            
         }
 
         public function search(Request $request){

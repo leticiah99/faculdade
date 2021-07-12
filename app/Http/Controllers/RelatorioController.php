@@ -14,7 +14,17 @@ use Dompdf\Dompdf;
 class RelatorioController extends Controller
 {
 
-    
+    public function gerarRelatorioOs(){
+        $ordens = OrdemServico::all();
+        return view('relatorios.rel_os');
+    }
+
+    public function gerarRelatorioCliente(){
+        $ordens = OrdemServico::all();
+        return view('relatorios.rel_cliente');
+    }
+
+    /*
     public function geraPdf(){
 
         $cliente = Cliente::all();
@@ -23,7 +33,22 @@ class RelatorioController extends Controller
 
         return $pdf->setPaper('a4')->stream('Relatório.pdf');
 
-    } 
+    } */
+
+
+
+    /*
+    public function geraPdfOs(){
+
+        $ordens = OrdemServico::all();
+        $pdf = PDF::loadview('pdf', compact('ordens'));
+        //$dompdf->render('pdf', compact('cliente'));
+
+        return $pdf->setPaper('a4')->stream('Relatório.pdf');
+
+    } */
+
+
 
     /*
     public function geraPdf(){
@@ -43,17 +68,5 @@ class RelatorioController extends Controller
 
     }*/
 
-
-
-  
-
-    public function gerarRelatorioOs(){
-        //$ordens = OrdemServico::all();
-        return view('relatorios.rel_os');
-    }
-
-    public function gerarRelatorioCliente(){
-        //$ordens = OrdemServico::all();
-        return view('relatorios.rel_cliente');
-    }
+   
 } 

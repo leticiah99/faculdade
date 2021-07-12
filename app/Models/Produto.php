@@ -22,12 +22,9 @@ class Produto extends Model
         $results = $this->where(function ($query) use ($filter){
             if($filter){
                 $query->where('nome', 'LIKE', "%{$filter}%");
-                //$query->where('marca', 'LIKE', "%{$filter}%");
-               // $query->where('marca', '=', $filter);
             } 
  
-        } )//->toSql();
-        ->paginate();
+        })->paginate(10);
 
         return $results; 
  

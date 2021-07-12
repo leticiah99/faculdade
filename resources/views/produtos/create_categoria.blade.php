@@ -8,7 +8,12 @@
 
             <div class="form-group">               
                 <label for="nome">CATEGORIA</label>
-                <input type="text" class="form-control" name="nome" id="nome">                  
+                <input id="nome" type="text" class="form-control @error('nome') is-invalid @enderror" name="nome" value="{{ old('nome') }}" required autocomplete="nome" >
+                    @error('nome')
+                        <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror                     
             </div>  
             <button type="submit" class="btn btn-success">Cadastrar</button>   
         </form>     

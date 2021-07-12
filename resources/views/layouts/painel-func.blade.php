@@ -1,7 +1,3 @@
-<?php
-use App\Models\User;
-?>
-
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -28,8 +24,6 @@ use App\Models\User;
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.83.1">
-    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
-
     <title>Assistência Técnica</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
@@ -139,55 +133,8 @@ use App\Models\User;
               Clientes
             </a>
           </li>
-
-          @if (Gate::allows('isAdmin'))
-          <li class="nav-item">
-            <a class="nav-link {{ request()->is('categorias*') ? 'active' : ''  }}" href="http://127.0.0.1:8000/categorias">
-              <i class="fa fa-bank"></i> <span>Categoria de produtos</span>
-            </a>
-            
-          </li>
-          @endif
-
           
-          <li class="nav-item">
-            <a class="nav-link {{ request()->is('produtos*') ? 'active' : ''  }}" href="http://127.0.0.1:8000/produtos">
-              <span data-feather="bar-chart-2"></span>
-              Produtos
-            </a>
-          </li>
-          @if (Gate::allows('isAdmin'))
-          <li class="nav-item">
-            <a class="nav-link {{ request()->is('tipos-servico*') ? 'active' : ''  }}" href="http://127.0.0.1:8000/tipos-servico">
-              <span data-feather="layers"></span>
-              Serviços
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {{ request()->is('usuarios*') ? 'active' : ''  }}" href="http://127.0.0.1:8000/usuarios">
-              <span data-feather="layers"></span>
-              Usuários
-            </a>
-          </li>
-        </ul>
 
-
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span style="font-size:16px">Relatórios</span>
-          <a class="link-secondary" href="#" aria-label="Add a new report">
-            <span data-feather="plus-circle"></span>
-          </a>
-        </h6>
-        <ul class="nav flex-column mb-2">
-          
-          <li class="nav-item " >
-            <a class="nav-link {{ request()->is('relatorio/os*') ? 'active' : ''  }}" href="http://127.0.0.1:8000/relatorio/os">
-              <span data-feather="file-text"></span>
-              Ordens de serviço
-            </a>
-          </li>     
-        </ul>
-        @endif
 
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
           <span style="font-size:16px">Configurações</span>
@@ -200,7 +147,7 @@ use App\Models\User;
             <a class="nav-link {{ request()->is('perfil*') ? 'active' : ''  }}" href="{{route('editar_perfil', $user->id ?? '' )}}">
             
               <span data-feather="file-text"></span>
-              Meu Perfil   
+              Meu Perfil  
             </a>
           </li>
 
@@ -214,8 +161,6 @@ use App\Models\User;
       </div>
 
       @yield('content')
-      <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
-      <script type="text/javascript" src="{{ asset('js/mask.js') }}"></script>
       </div>
     </main>
   </div>

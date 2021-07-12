@@ -21,7 +21,7 @@ class ClienteController extends Controller
     } 
 
     public function index(Cliente $cliente){
-        $clientes = $cliente::orderBy('nome', 'ASC')->get();
+        $clientes = $cliente::orderBy('nome', 'ASC')->paginate(10);
         return view('clientes.list_cliente', compact('clientes'));  
     } 
 
@@ -61,7 +61,8 @@ class ClienteController extends Controller
         $cliente=Cliente::findOrFail($id);
         $cliente->delete();
         $request->session()->flash('alert-success', 'Cliente excluído com sucesso.');
-        return redirect()->route('listar_cliente');    }
+        return redirect()->route('listar_cliente');    
+    }
 
     public function edit(Cliente $cliente, $id){
         $cidades = Cidade::all(); 
@@ -75,7 +76,7 @@ class ClienteController extends Controller
         $endereco_id = $request->input('endereco_id');    
         Cliente::find($id)->update($dataForm);
         Endereco::find($endereco_id)->update($dataForm);
-        $request->session()->flash('alert-success', 'Dados do cliente editados com sucesso.');
+        $request->session()->flash('alert-success', 'Dados do cliente atualizados com sucesso.');
         return redirect()->route('listar_cliente'); 
     }
 

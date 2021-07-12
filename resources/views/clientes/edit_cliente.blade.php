@@ -5,7 +5,6 @@
 @section('content')
     <div class="container">
         <form action="{{ route('atualizar_cliente', ['id' => $cliente->id]) }}" method="post">
-        
         @csrf
 
             <div class="form-group">               

@@ -21,9 +21,11 @@ class CreateOrdemServicosTable extends Migration
             $table->string('descricao', 45);
             $table->enum('status', ['Aguardando', 'Em andamento', 'Finalizado', 'Cancelado'])->default('Aguardando');
             $table->enum('forma_pagamento', ['Crédito', 'Débito', 'Em espécie'])->nullable();
-            $table->decimal('valor_pago', 10,2)->default(0);
+            $table->decimal('valor_pago', 10,2)->nullable();
             $table->unsignedInteger('cliente_id');
             $table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('cascade')->onUpdate('cascade'); 
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users'); 
             
             $table->timestamps();
         });

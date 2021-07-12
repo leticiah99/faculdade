@@ -15,9 +15,8 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password', 'role', 'endereco_id', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'estado'
-    ];
+    protected $table='users';
+    protected $fillable = ['name', 'phone', 'email', 'password', 'role'];
 
 
     /**
@@ -38,10 +37,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function endereco(){
-        return $this->belongsTo(Endereco::class, 'endereco_id');
-    }  
-
+    public function ordens(){
+        return $this->hasMany(OrdemServico::class);
+    }
+    
     public function search($filter = null){
 
         $results = $this->where(function ($query) use ($filter){
@@ -51,8 +50,7 @@ class User extends Authenticatable
                // $query->where('marca', '=', $filter);
             } 
  
-        } )//->toSql();
-        ->paginate();
+        })->paginate(10);
 
         return $results;
  

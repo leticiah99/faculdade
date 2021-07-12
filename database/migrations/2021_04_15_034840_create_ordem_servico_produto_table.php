@@ -25,8 +25,8 @@ class CreateOrdemServicoProdutoTable extends Migration
         });
 
         Schema::table('ordem_servico_produto', function (Blueprint $table){
-            $table->foreign('ordem_servico_id')->references('id')->on('ordem_servicos');
-            $table->foreign('produto_id')->references('id')->on('produtos'); 
+            $table->foreign('ordem_servico_id')->references('id')->on('ordem_servicos')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('produto_id')->references('id')->on('produtos')->onDelete('cascade')->onUpdate('cascade'); 
 
         });
     }

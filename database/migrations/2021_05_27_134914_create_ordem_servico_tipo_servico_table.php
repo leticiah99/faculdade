@@ -23,8 +23,8 @@ class CreateOrdemServicoTipoServicoTable extends Migration
         }); 
 
         Schema::table('ordem_servico_tipo_servico', function (Blueprint $table){
-            $table->foreign('ordem_servico_id')->references('id')->on('ordem_servicos');
-            $table->foreign('tipo_servico_id')->references('id')->on('tipo_servicos'); 
+            $table->foreign('ordem_servico_id')->references('id')->on('ordem_servicos')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('tipo_servico_id')->references('id')->on('tipo_servicos')->onDelete('cascade')->onUpdate('cascade'); 
 
         });
     }

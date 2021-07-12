@@ -15,6 +15,7 @@
             </div>
         </div>  
 
+        
         <div class="col-md-6">
             <div class="form-group">               
                 <label for="phone">TELEFONE</label>
@@ -29,18 +30,16 @@
             </div> 
         </div>
 
-        <div class="form-group">
+        <div class="form-group" hidden>
                 <label for="">CARGO</label>
                 <select name="role" id="role" class="form-select">             
                     <option value="{{$user->role}}" selected>{{$user->role}}</option>
                     <option value="Funcionário">Funcionário</option>
                     <option value="Admin">Admin</option>
                 </select>
-            </div>   
-
+        </div>   
     </div>
 <br>
-
             <button type="submit" class="btn btn-success">Salvar</button> 
             <td><a class="btn btn-danger" onclick="return confirm('Tem certeza que deseja cancelar?')" href="{{ route('listar_user') }}">Cancelar</a> 
         

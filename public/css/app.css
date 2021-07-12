@@ -4466,8 +4466,8 @@ input[type=button].btn-block {
 
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
-  color: #495057;
-  background-color: #f8fafc;
+  color: #0b1c2c;
+  background-color: #090d11;
   border-color: #dee2e6 #dee2e6 #f8fafc;
 }
 
@@ -5292,7 +5292,7 @@ input[type=button].btn-block {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: #3490dc;
+  background-color: #161616;
   border-color: #3490dc;
 }
 

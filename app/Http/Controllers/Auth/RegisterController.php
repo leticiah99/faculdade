@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use App\Models\Endereco;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -51,10 +50,13 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:100'],
+            'phone'=> ['required', 'string', 'max:60'],
             'email' => ['required', 'string', 'email', 'max:100', 'unique:users'],
+            //'role' => ['in:option1, option2'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    } //255
+            
+        ]); 
+    } 
 
     /**
      * Create a new user instance after a valid registration.
@@ -63,28 +65,16 @@ class RegisterController extends Controller
      * @return \App\Models\User
      */
     
-    
-    
     protected function create(array $data)
     {
-      
         return User::create([
             'name' => $data['name'],
+            'phone'=> $data['phone'],
             'email' => $data['email'],
+            //'role' => $data['role'],
             'password' => Hash::make($data['password']),
-            'logradouro'=> $data['logradouro'],
-            'numero'=> $data['numero'],
-            'complemento'=> $data['complemento'],
-            'bairro'=> $data['bairro'],
-            'cidade'=> $data['cidade'],
-            'estado'=> $data['estado'],
-            
+                   
         ]);
     }
-
-    
-    
-        
-
     
 } 
