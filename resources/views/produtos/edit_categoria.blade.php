@@ -13,8 +13,8 @@
                 <input type="text" class="form-control" name="nome" id="nome"  value="{{$categoria->nome}}">        
             </div>  
 
-            <button type="submit" class="btn btn-info" style="color:white">Salvar</button>  
-            <td><a class="btn btn-danger" onclick="return confirm('Tem certeza que deseja cancelar?')" href="{{ route('listar_categoria') }}">Cancelar</a> 
-      
+            <button type="submit" class="btn btn-info" style="color:white">Salvar</button> 
+            <a href="{{route ('listar_categoria')}}" class="btn btn-danger"> Cancelar</a>
+    
     </div>
 @endsection

@@ -15,7 +15,10 @@
                         </span>
                     @enderror                     
             </div>  
-            <button type="submit" class="btn btn-success">Cadastrar</button>   
+            <br>
+            <button type="submit" class="btn btn-success">Cadastrar</button>  
+            <a href="{{route ('listar_categoria')}}" class="btn btn-danger">Cancelar</a>
+ 
         </form>     
     </div>
 @endsection

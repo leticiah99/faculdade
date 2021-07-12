@@ -72,7 +72,8 @@
                         </span>
                     @enderror 
             </div>
-
-            <button type="submit" class="btn btn-success">Cadastrar</button>        
+            <br>
+            <button type="submit" class="btn btn-success mr-2">Cadastrar</button>  
+            <a href="{{route ('listar_user')}}" class="btn btn-danger"> Cancelar</a>     
     </div>
 @endsection

@@ -23,15 +23,13 @@ Auth::routes();
 Route::resource('produtos', 'ProdutoController');
 Route::get('/produtos','ProdutoController@index')->name('listar_produto');
 Route::any('/produtos/pesquisar', 'ProdutoController@search')->name('pesquisar_produto');
-Route::get('/produto/novo','ProdutoController@create')->name('criar_produto');
+Route::get('/produtos/novo','ProdutoController@create')->name('criar_produto');
 Route::post('/produto/novo','ProdutoController@store')->name('salvar_produto'); //salva_produto=nome no html
-Route::get('/produtos/{id}','ProdutoController@show')->name('detalhar_produto');
+Route::get('/produto/{id}','ProdutoController@show')->name('detalhar_produto');
 Route::get('/produtos/excluir/{id}','ProdutoController@destroy')->name('excluir_produto');
 Route::get('/produtos/editar/{id}','ProdutoController@edit')->name('editar_produto');
 Route::post('/produto/editar/{id}','ProdutoController@update')->name('atualizar_produto');
 Route::get('/produto/{id}','ProdutoController@show')->name('detalhar_produto');
-
-
 
 // ============================================================================================= //
  
@@ -40,7 +38,7 @@ Route::resource('categorias', 'CategoriaProdutoController');
 Route::get('/categorias','CategoriaProdutoController@index')->name('listar_categoria');
 Route::any('/categorias/pesquisar', 'CategoriaProdutoController@search')->name('pesquisar_categoria');
 Route::get('/categoria/novo','CategoriaProdutoController@create');
-Route::post('/categoria/novo','CategoriaProdutoController@store')->name('salvar_categoria'); //salva_produto=nome no html
+Route::post('/categoria/novo','CategoriaProdutoController@store')->name('salvar_categoria'); 
 Route::get('/categorias/{id}','CategoriaProdutoController@show')->name('detalhar_categoria');
 Route::get('/categorias/excluir/{id}','CategoriaProdutoController@destroy')->name('excluir_categoria');
 Route::get('/categorias/editar/{id}','CategoriaProdutoController@edit')->name('editar_categoria');
@@ -52,8 +50,8 @@ Route::post('/categorias/editar/{id}','CategoriaProdutoController@update')->name
 Route::resource('clientes', 'ClienteController');
 Route::get('clientes', 'ClienteController@index')->name('listar_cliente');
 Route::any('/clientes/pesquisar', 'ClienteController@search')->name('pesquisar_cliente');
-Route::get('/cliente/novo','ClienteController@create');
-Route::post('/cliente/novo','ClienteController@store')->name('salvar_cliente'); //salva_produto=nome no html
+Route::get('/cliente/novo','ClienteController@create'); 
+Route::post('/cliente/novo','ClienteController@store')->name('salvar_cliente'); 
 Route::get('/clientes/{id}','ClienteController@show')->name('detalhar_cliente');
 
 Route::get('/clientes/excluir/{id}','ClienteController@destroy')->name('excluir_cliente');

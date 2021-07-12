@@ -12,7 +12,12 @@
             <form action="{{ route('salvar_categoria') }}" method="post"> 
             @csrf
                 <div class="input-group">
-                    <input class="form-control" type="text" name="nome" id="nome" placeholder="Inserir nova categoria" />
+                    <input id="nome" type="text" class="form-control @error('nome') is-invalid @enderror" name="nome" value="{{ old('nome') }}" required autocomplete="nome" placeholder="Inserir nova categoria"/>
+                    @error('nome')
+                        <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror   
                 <div class="input-group-btn">
                     <button class="btn btn-success" type="submit">Cadastrar</button> <br /><br />
                 </div>

@@ -142,9 +142,9 @@
                 </div> 
             </div>
         </div>
-
-        <button type="submit" class="btn btn-success">Cadastrar</button> 
-       
+        <br>
+        <button type="submit" class="btn btn-success mr-2">Cadastrar</button> 
+        <a href="{{route ('listar_produto')}}" class="btn btn-danger"> Cancelar</a>
     </div>
 
 

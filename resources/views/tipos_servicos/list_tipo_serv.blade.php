@@ -9,13 +9,23 @@
         <div class="row">
             <div class="col-md-5">
                 <div class="input-group">
-                    <input class="form-control" type="text" name="nome" id="nome" placeholder="Inserir novo tipo de serviço" /> 
+                    <input id="nome" type="text" class="form-control @error('nome') is-invalid @enderror" name="nome" value="{{ old('nome') }}" required autocomplete="nome" placeholder="Inserir novo tipo de serviço"/>
+                    @error('nome')
+                        <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror   
                 </div>
             </div>
 
             <div class="col-md-5">
                 <div class="input-group">
-                    <input class="form-control" type="text" name="preco" id="preco" placeholder="Inserir preço" />
+                    <input id="preco" type="text" class="form-control @error('preco') is-invalid @enderror" name="preco" value="{{ old('preco') }}" required autocomplete="preco" placeholder="Inserir preço"/>
+                    @error('preco')
+                        <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror   
                 </div>
             </div>
                 

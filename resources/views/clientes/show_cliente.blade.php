@@ -75,10 +75,7 @@
         </div>
 
     </div>
-
         
-
-         
             <br>
             @if(!count($cliente->ordens))
             <div class="alert alert-info">Nenhuma ordem de serviço encontrada.</div>

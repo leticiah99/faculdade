@@ -86,7 +86,9 @@
 
              </div>
               
-             <button type="submit" class="btn btn-success">Cadastrar</button>        
+             <button type="submit" class="btn btn-success mr-2">Cadastrar</button>  
+             <a href="{{route ('listar_ordem')}}" class="btn btn-danger"> Cancelar</a>
+      
      </div>
  @endsection
  

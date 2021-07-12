@@ -132,7 +132,7 @@ class OrdemServicoController extends Controller
     public function addProdutoSave($id, Request $request){
 
         $ordemServico = OrdemServico::find($id);
-
+ 
         if(!$ordemServico){
             return "Erro ao adicionar produto";
         }
@@ -142,6 +142,7 @@ class OrdemServicoController extends Controller
         $valor_final = $produto->valor_unit_venda * $request->quantidade;  
 
         $ordemServico->produtos()->attach($produto,  ['valor' => $valor_final, 'quantidade' => $request->quantidade ]);
+       
         foreach($ordemServico->produtos as $produto){
             $produto->quantidade = $produto->quantidade - $request->quantidade; 
 
@@ -196,8 +197,6 @@ class OrdemServicoController extends Controller
         $servico = TipoServico::find($request->servico);
 
         $valor_final = $servico->preco * $request->quantidade;  
-
-
         $ordemServico->servicos()->attach($servico, ['valor' => $valor_final, 'quantidade' => $request->quantidade]);
 
         return redirect()->route('adicionar_servico', ['id' => $ordemServico->id]);

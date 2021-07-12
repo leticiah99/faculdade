@@ -40,9 +40,8 @@
         </div>   
     </div>
 <br>
-            <button type="submit" class="btn btn-success">Salvar</button> 
-            <td><a class="btn btn-danger" onclick="return confirm('Tem certeza que deseja cancelar?')" href="{{ route('listar_user') }}">Cancelar</a> 
-        
-       
+            <button type="submit" class="btn btn-info" style="color:white">Salvar</button> 
+            <a href="{{route ('listar_user')}}" class="btn btn-danger"> Cancelar</a>
+  
     </div>
 @endsection

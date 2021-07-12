@@ -18,7 +18,7 @@
                     @enderror               
                 </div> 
             </div>
-
+ 
             <div class="col-md-6">
                 <div class="form-group">               
                     <label for="telefone">TELEFONE</label>
@@ -108,8 +108,10 @@
                 </div> 
             </div>
          </div>
-            
-        <button type="submit" class="btn btn-success">Cadastrar</button><br>     
+        <br>
+        <button type="submit" class="btn btn-success mr-2">Cadastrar</button>
+        <a href="{{route ('listar_cliente')}}" class="btn btn-danger"> Cancelar</a>
+     
 </div>
 @endsection
 

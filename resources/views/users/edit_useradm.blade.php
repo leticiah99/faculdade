@@ -32,7 +32,7 @@
                 </select>
             </div>    
 
-            <button type="submit" class="btn btn-success">Salvar</button>    
+            <button type="submit" class="btn btn-info" style="color:white">Salvar</button> 
             <td><a class="btn btn-danger"  href="{{ route('listar_user') }}">Cancelar</a> 
     
     </div>

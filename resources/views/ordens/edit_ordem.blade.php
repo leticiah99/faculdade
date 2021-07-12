@@ -77,8 +77,7 @@
                 <label for="valor_pago">PREÇO FINAL</label>
                 <input type="text" class="form-control" name="valor_pago" id="valor_pago" value="{{$ordemServico->valor_pago}}">                  
             </div> 
-
-            <button type="submit" class="btn btn-info" style="color:white">Salvar</button>   
+            <button type="submit" class="btn btn-info" style="color:white">Salvar</button> 
             <a href="{{route ('listar_ordem')}}" class="btn btn-danger"> Cancelar</a>
      
     </div>
