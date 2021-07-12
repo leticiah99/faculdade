@@ -11,24 +11,24 @@ use PDF;
 use DB;
 
 class ClienteController extends Controller
-{ 
+{
     protected $request;
     private $repository;
 
     public function __construct(Request $request, Cliente $cliente){
         $this->request = $request;
         $this->repository = $cliente;
-    } 
+    }
 
     public function index(Cliente $cliente){
         $clientes = $cliente::orderBy('nome', 'ASC')->paginate(10);
-        return view('clientes.list_cliente', compact('clientes'));  
-    } 
+        return view('clientes.list_cliente', compact('clientes'));
+    }
 
-    public function create(Cliente $cliente) {  
-        $cidades = Cidade::all();     
-        return view('clientes.create_cliente', compact('cliente', 'cidades', 'ordens'));
-    } 
+    public function create(Cliente $cliente) {
+        $cidades = Cidade::all();
+        return view('clientes.create_cliente', compact('cliente', 'cidades'));
+    }
 
     public function store(Request $request)
     {
@@ -51,48 +51,48 @@ class ClienteController extends Controller
         $request->session()->flash('alert-success', 'Cliente cadastrado com sucesso.');
         return redirect()->route('listar_cliente');
     }
-    
+
     public function show($id){
         $cliente = Cliente::with('ordens')->find($id);
         return view('clientes.show_cliente',  ['cliente' => $cliente]);
     }
 
-    public function destroy(Request $request, $id){    
+    public function destroy(Request $request, $id){
         $cliente=Cliente::findOrFail($id);
         $cliente->delete();
         $request->session()->flash('alert-success', 'Cliente excluído com sucesso.');
-        return redirect()->route('listar_cliente');    
+        return redirect()->route('listar_cliente');
     }
 
     public function edit(Cliente $cliente, $id){
-        $cidades = Cidade::all(); 
-        $cliente = Cliente::findOrFail($id); 
+        $cidades = Cidade::all();
+        $cliente = Cliente::findOrFail($id);
         return view('clientes.edit_cliente', compact('cliente', 'cidades'));
     }
- 
+
     public function update(Request $request, $id)
     {
         $dataForm = $request->all();
-        $endereco_id = $request->input('endereco_id');    
+        $endereco_id = $request->input('endereco_id');
         Cliente::find($id)->update($dataForm);
         Endereco::find($endereco_id)->update($dataForm);
         $request->session()->flash('alert-success', 'Dados do cliente atualizados com sucesso.');
-        return redirect()->route('listar_cliente'); 
+        return redirect()->route('listar_cliente');
     }
 
     public function search(Request $request){
         $clientes = $this->repository->search($request->filter);
         return view('clientes.list_cliente', [
             'clientes' => $clientes,
-        ]); 
+        ]);
     }
-     
+
     public function geraPdf($id){
         $cliente = Cliente::with('ordens')->find($id);
 
         $pdf = PDF::loadview('clientes.relatorio', compact('cliente'));
 
-        return $pdf->setPaper('a4')->stream('Relatório.pdf'); 
+        return $pdf->setPaper('a4')->stream('Relatório.pdf');
     }
-} 
+}
 ?>
