@@ -16,11 +16,11 @@
                                 <option value="{{ $cliente->id}}"> {{ $cliente->nome}}</option>
                             @endforeach
                     </select> 
-                    @error('cliente_id')
-                        <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror  
+                        @error('cliente_id')
+                            <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror  
                 </div> 
             </div>
         

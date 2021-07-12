@@ -35,7 +35,12 @@
 
                 <div class="col-md-4">
                     <div class="input-group">
-                        <input type="text" placeholder="Quantidade" class="form-control" name="quantidade" id="quantidade"> 
+                        <input id="quantidade" type="number" class="form-control @error('quantidade') is-invalid @enderror" name="quantidade" value="{{ old('quantidade') }}" required autocomplete="quantidade" placeholder="Quantidade" >
+                        @error('quantidade')
+                            <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror 
                     </div>
                 </div>
             
@@ -44,6 +49,16 @@
                 </div>
             </div>
             <br></br>
+
+            <div class="col-md-12">
+                <div class="flash-message">
+                    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+                        @if(Session::has('alert-' . $msg))
+                        <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+                        @endif
+                    @endforeach
+                </div> 
+            </div>
 
 
     <div class="col-md-12">
@@ -91,8 +106,6 @@
                     <td colspan="5">Valor total de serviços: R$ {{$valor_total}}</td>
                 </tr>
             </tfooter>
-
-
 
         </table>
         @endif

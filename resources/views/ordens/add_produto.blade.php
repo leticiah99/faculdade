@@ -17,43 +17,54 @@
             </li>
         </ul>
 
-
     <div class="container-xl">
-    <br></br>
-    <div class="col-md-12">
-    </div>
+        <br></br>
 
-    <form action="{{route('adicionar_produto', [$ordemServico->id]) }}" method="post"> 
-    @csrf
+        <form action="{{route('adicionar_produto', [$ordemServico->id]) }}" method="post"> 
+        @csrf
+
+        <div class="row">
 
             <div class="input-group col-md-12">
                 <select name="produto" class="form-select">
                     <option>Selecione o produto</option>
-
-                    @foreach($produtos as $produto)
-                        @if($produto->quantidade > 0)
-                        <option value="{{$produto->id}}">{{$produto->nome}}</option>
-                        @endif
+                    @foreach($produtos as $produto)   
+                        <option value="{{$produto->id}}">{{$produto->nome}}</option>     
                     @endforeach
                 </select>
-
+ 
                 <div class="col-md-4">
                     <div class="input-group">
-                        <input type="text" placeholder="Quantidade" class="form-control" name="quantidade" id="quantidade"> 
+                        <input id="quantidade" type="number" class="form-control @error('quantidade') is-invalid @enderror" name="quantidade" value="{{ old('quantidade') }}" required autocomplete="quantidade" placeholder="Quantidade" >
+                        @error('quantidade')
+                            <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror 
                     </div>
-                </div>
-                          
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary">Adicionar</button>
-                </div>
+                </div>        
+                
+                <button type="submit" class="btn btn-primary">Adicionar</button>
+               
 
              </div>
+
+        </div>
+
+             <br>
+             <div class="col-md-12">
+                <div class="flash-message">
+                    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+                        @if(Session::has('alert-' . $msg))
+                        <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+                        @endif
+                    @endforeach
+                </div> 
+    </div>
              
              <br></br>
 
              
-    
-
     <div class="col-md-12">
         <h4>Produtos adicionados</h4>
 
@@ -90,10 +101,7 @@
                 </tr>
                     @php
                         $valor_total += $produto->pivot->valor; 
-                        $produto->quantidade = $produto->quantidade - $produto->pivot->quantidade; 
-
                     @endphp 
-                    <td colspan="5">quantidade de produtos: {{$produto->quantidade}}</td>
                 @endforeach
             </tbody>
             <tfooter>
@@ -107,7 +115,7 @@
 
    
     
-</form>
+    </form>
 </div>
 
 @endsection

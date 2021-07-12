@@ -23,13 +23,15 @@ Auth::routes();
 Route::resource('produtos', 'ProdutoController');
 Route::get('/produtos','ProdutoController@index')->name('listar_produto');
 Route::any('/produtos/pesquisar', 'ProdutoController@search')->name('pesquisar_produto');
-Route::get('/produtos/novo','ProdutoController@create')->name('criar_produto');
+Route::get('/produto/novo','ProdutoController@create')->name('criar_produto');
 Route::post('/produto/novo','ProdutoController@store')->name('salvar_produto'); //salva_produto=nome no html
-Route::get('/produto/{id}','ProdutoController@show')->name('detalhar_produto');
+Route::get('/produtos/{id}','ProdutoController@show')->name('detalhar_produto');
 Route::get('/produtos/excluir/{id}','ProdutoController@destroy')->name('excluir_produto');
 Route::get('/produtos/editar/{id}','ProdutoController@edit')->name('editar_produto');
 Route::post('/produto/editar/{id}','ProdutoController@update')->name('atualizar_produto');
 Route::get('/produto/{id}','ProdutoController@show')->name('detalhar_produto');
+
+
 
 // ============================================================================================= //
  
