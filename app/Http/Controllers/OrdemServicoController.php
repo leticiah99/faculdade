@@ -9,43 +9,43 @@ use App\Models\Cliente;
 use App\Models\Produto;
 use App\Models\OrdemServicoProduto;
 use App\Models\TipoServico;
-use Illuminate\Support\Facades\Gate; 
+use Illuminate\Support\Facades\Gate;
 use Carbon\Carbon;
 use DB;
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 use PDF;
 
 class OrdemServicoController extends Controller
 {
     protected $request;
-    private $repository; 
+    private $repository;
 
     public function __construct(Request $request, OrdemServico $ordemServico){
         $this->request = $request;
         $this->repository = $ordemServico;
         $ordens = $ordemServico->all();
-    }  
+    }
 
     public function index(OrdemServico $ordemServico){
        $ordens = OrdemServico::orderBy('created_at', 'DESC')->paginate(10);
 
         return view('ordens.list_ordem', compact('ordens'));
-    }  
+    }
 
 
     public function create(OrdemServico $ordemServico) {  //Retorna a View para criar um item da tabela
         $clientes = Cliente::all();
         $user = Auth::user();
-        return view('ordens.create_ordem', compact('ordemServico', 'clientes', 'users'));
-        
-    } 
+        return view('ordens.create_ordem', compact('ordemServico', 'clientes', 'user'));
 
-     
+    }
+
+
     public function store(Request $request){
         $user = Auth::user();
 
         $ordemServico = OrdemServico::create([
-            'id' => $request->id,    
+            'id' => $request->id,
             'descricao' => $request->descricao,
             'status' => $request->status,
             //'forma_pagamento' => $request->forma_pagamento,
@@ -53,7 +53,7 @@ class OrdemServicoController extends Controller
             'cliente_id' => $request->cliente_id,
             'user_id' => auth()->id(),
             'data_inicial' =>  $request->data_inicial,
-            'hora' =>  $request->hora,            
+            'hora' =>  $request->hora,
         ]);
         $request->session()->flash('alert-success', 'Ordem de serviço cadastrada com sucesso.');
         return redirect()->route('detalhar_ordem', ['id' => $ordemServico->id]);
@@ -63,7 +63,7 @@ class OrdemServicoController extends Controller
         $ordemServico = OrdemServico::findOrFail($id);
         return view('ordens.show_ordem',['ordemServico' => $ordemServico]);
     }
- 
+
     public function destroy($id, Request $request){
         if (Gate::allows('isAdmin')) {
             $ordemServico=OrdemServico::findOrFail($id);
@@ -72,13 +72,13 @@ class OrdemServicoController extends Controller
             return redirect()->route('listar_ordem');
         }else {
             return "Você não tem permissão para realizar esta operação.";
-        }    
+        }
     }
 
     public function edit(OrdemServico $ordemServico, $id){
         $clientes = Cliente::all();
         $ordemServico = OrdemServico::findOrFail($id);
-        return view('ordens.edit_ordem', compact('ordemServico', 'clientes')); 
+        return view('ordens.edit_ordem', compact('ordemServico', 'clientes'));
     }
 
     public function update(Request $request, $id){
@@ -93,23 +93,23 @@ class OrdemServicoController extends Controller
             'forma_pagamento' => $request->forma_pagamento,
             'valor_pago' => $request->valor_pago,
             'cliente_id' => $request->cliente_id,
-            
+
         ]);
         $ordens = $ordemServico->all();
         $request->session()->flash('alert-success', 'Ordem de serviço atualizada com sucesso.');
         return redirect()->route('listar_ordem');
-    } 
+    }
 
     public function finalizar(Request $request, $id){
         $ordemServico = OrdemServico::findOrFail($id);
-        $ordemServico->update([       
+        $ordemServico->update([
             'status' => 'Finalizado',
             'forma_pagamento' => $request->forma_pagamento,
             'data_final' => $request->data_final,
             'valor_pago' => $request->valor_pago,
-                 
+
         ]);
-        
+
         $request->session()->flash('alert-success', 'Ordem de serviço finalizada com sucesso.');
         return redirect()->route('detalhar_ordem' , ['id' => $ordemServico->id]);
     }
@@ -139,17 +139,21 @@ class OrdemServicoController extends Controller
 
         $produto = Produto::find($request->produto);
 
-        $valor_final = $produto->valor_unit_venda * $request->quantidade;  
+        $total = $produto->quantidade - $request->quantidade;
+
+        if($total < 0){
+            return "Erro nivel de estoque abaixo do necessário";
+        }
+
+        $produto->update(['quantidade' => $total]);
+
+        $valor_final = $produto->valor_unit_venda * $request->quantidade;
 
         $ordemServico->produtos()->attach($produto,  ['valor' => $valor_final, 'quantidade' => $request->quantidade ]);
-        foreach($ordemServico->produtos as $produto){
-            $produto->quantidade = $produto->quantidade - $request->quantidade; 
 
-        }
-        
         return redirect()->route('adicionar_produto', ['id' => $ordemServico->id]);
 
-    } 
+    }
 
     public function removeProduto($id, $produto_id){
 
@@ -157,7 +161,7 @@ class OrdemServicoController extends Controller
 
         if(!$ordemServico)
             return "Erro ao remover produto";
-        
+
 
         $produto = Produto::find($produto_id);
 
@@ -169,7 +173,7 @@ class OrdemServicoController extends Controller
 
         return redirect()->route('adicionar_produto', ['id' => $ordemServico->id]);
 
-    } 
+    }
 
 //==================================================================================================//
     public function addServico($id){
@@ -195,7 +199,7 @@ class OrdemServicoController extends Controller
 
         $servico = TipoServico::find($request->servico);
 
-        $valor_final = $servico->preco * $request->quantidade;  
+        $valor_final = $servico->preco * $request->quantidade;
 
 
         $ordemServico->servicos()->attach($servico, ['valor' => $valor_final, 'quantidade' => $request->quantidade]);
@@ -219,35 +223,35 @@ class OrdemServicoController extends Controller
         $ordemServico->servicos()->detach($servico);
 
         return redirect()->route('adicionar_servico', ['id' => $ordemServico->id]);
- 
+
     }
 
- 
+
     public function search(Request $request){
         //$status = '%' .$request->status;
         $ordens = OrdemServico::where('data_inicial', '=', $request->data_inicial)->orWhere('status', '=', $request->status)->paginate(10);
-      
-        return view('ordens.list_ordem', ['ordens' => $ordens]);  
+
+        return view('ordens.list_ordem', ['ordens' => $ordens]);
     }
 
-    
+
     public function geraPdfOs(Request $request){
         $ordens = OrdemServico::orderBy('data_inicial', 'ASC')->get();
         $pdf = PDF::loadview('ordens.relatorio_geral', compact('ordens'));
 
-       return $pdf->setPaper('a4')->stream('Relatório.pdf'); 
+       return $pdf->setPaper('a4')->stream('Relatório.pdf');
     }
-    
-    
+
+
     public function geraPdfEsp(Request $request){
         $status = '%' .$request->status;
         $data_inicial = $request->dataInicial;
         $data_final = $request->dataFinal;
-        $ordens = OrdemServico::where('data_inicial', '>=', $data_inicial)->where('data_inicial', '<=', $data_final)->orWhere('status', 'LIKE', $status)->get();     
+        $ordens = OrdemServico::where('data_inicial', '>=', $data_inicial)->where('data_inicial', '<=', $data_final)->orWhere('status', 'LIKE', $status)->get();
 
         $pdf = PDF::loadview('ordens.relatorio', ['ordens' => $ordens,  'dataInicial' => $data_inicial, 'dataFinal' => $data_final]);
 
-        return $pdf->setPaper('a4')->stream('Relatório.pdf'); 
+        return $pdf->setPaper('a4')->stream('Relatório.pdf');
     }
 
 }
