@@ -109,6 +109,7 @@ $dataFinal = implode('/', array_reverse(explode('-', $dataFinal)));
 De {{$dataInicial}} à {{$dataFinal}}
 </div>
 
+
 <table class='table' width='100%' border='1' cellspacing='0' cellpadding='3'>
 			<tr bgcolor='#f9f9f9'>
                 <td style='font-size:15px'> <b>Nº OS</b> </td>
@@ -157,14 +158,7 @@ De {{$dataInicial}} à {{$dataFinal}}
                           
                 @endforeach
             </tr>            
-            </table>
-
-            <div class='areaTotais'>
-  
-             <div align='right'><b>Total :</b> <span >R$ {{$ordem->sum('valor_pago')}}</span></div> 
-            </div>
-                
-            
+            </table>                  
 
 </body>
 </html>

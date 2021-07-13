@@ -1,5 +1,68 @@
 @extends('layouts.dashboard') 
 @section('content-title', 'CADASTRAR CLIENTE')
+@section('scriptjs')
+<link href="https://code.jquery.com/jquery-3.3.1.min.js">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+       $('#phone')
+
+.keydown(function (e) {
+    var key = e.which || e.charCode || e.keyCode || 0;
+    $phone = $(this);
+
+// Don't let them remove the starting '('
+if ($phone.val().length === 1 && (key === 8 || key === 46)) {
+        $phone.val('('); 
+  return false;
+    } 
+// Reset if they highlight and type over first char.
+else if ($phone.val().charAt(0) !== '(') {
+        $phone.val('('+String.fromCharCode(e.keyCode)+''); 
+    }
+
+    // Auto-format- do not expose the mask as the user begins to type
+    if (key !== 8 && key !== 9) {
+        if ($phone.val().length === 4) {
+            $phone.val($phone.val() + ')');
+        }
+        if ($phone.val().length === 5) {
+            $phone.val($phone.val() + ' ');
+        }			
+        if ($phone.val().length === 9) {
+            $phone.val($phone.val() + '-');
+        }
+    }
+
+    // Allow numeric (and tab, backspace, delete) keys only
+    return (key == 8 || 
+            key == 9 ||
+            key == 46 ||
+            (key >= 48 && key <= 57) ||
+            (key >= 96 && key <= 105));	
+})
+
+.bind('focus click', function () {
+    $phone = $(this);
+    
+    if ($phone.val().length === 0) {
+        $phone.val('(');
+    }
+    else {
+        var val = $phone.val();
+        $phone.val('').val(val); // Ensure cursor remains at the end
+    }
+})
+
+.blur(function () {
+    $phone = $(this);
+    
+    if ($phone.val() === '(') {
+        $phone.val('');
+    }
+});
+    </script>
+@endsection
 
 @section('content')
 
@@ -22,7 +85,7 @@
             <div class="col-md-6">
                 <div class="form-group">               
                     <label for="telefone">TELEFONE</label>
-                    <input id="telefone" type="text" class="form-control @error('telefone') is-invalid @enderror" name="telefone" value="{{ old('telefone') }}" required autocomplete="telefone" >
+                    <input id="telefone" type="text" class="form-control @error('telefone') is-invalid @enderror" name="telefone" value="{{ old('telefone') }}" required autocomplete="telefone" maxlength="14">
                     @error('telefone')
                         <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -115,10 +178,3 @@
 </div>
 @endsection
 
-@section('scriptjs')
-    <script>
-        $(document).ready(function(){
-            $('#telefone').mask('(99) 9 9999-9999');
-        });
-    </script>
-@endsection

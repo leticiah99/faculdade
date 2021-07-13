@@ -29,7 +29,8 @@ class EstadoController extends Controller
         if (Gate::allows('isAdmin')) {
         return view('enderecos.create_estado');
         }else {
-            return "Você não tem permissão para realizar esta operação."; // return view de dados pessoais 
+            $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação..');
+            return redirect()->route('listar_estado');
         }
     }
 
@@ -39,7 +40,8 @@ class EstadoController extends Controller
             'uf' => $request->uf,
             
         ]);
-        return "Estado cadastrado com sucesso";
+        $request->session()->flash('alert-success', 'Estado cadastrado com sucesso.');
+        return redirect()->route('listar_estado'); 
     }
 
     public function show(){
@@ -57,7 +59,8 @@ class EstadoController extends Controller
             }
 
         } else {
-            return "Você não tem permissão para realizar esta operação."; // return view de dados pessoais 
+            $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação..');
+            return redirect()->route('listar_estado');
         }
 
     }
@@ -66,9 +69,11 @@ class EstadoController extends Controller
         if (Gate::allows('isAdmin')) {
             $estado=Estado::findOrFail($id);
             $estado->delete();
-            return "Estado excluído com sucesso.";    
+            $request->session()->flash('alert-success', 'Estado excluído com sucesso.');
+            return redirect()->route('listar_estado'); 
         } else {
-            return "Você não tem permissão para realizar esta operação.";
+            $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação..');
+            return redirect()->route('listar_estado');
         }    
     }
 
@@ -77,18 +82,18 @@ class EstadoController extends Controller
         if (Gate::allows('isAdmin')) {
             return view('enderecos.edit_estado', ['estado' => $estado]);
         } else {
-            return "Você não tem permissão para realizar esta operação.";
+            $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação..');
+            return redirect()->route('listar_estado');
         }    
     } 
-
- 
 
     public function update(Request $request, $id){
         $estado = Estado::findOrFail($id);
         $estado->update([
             'uf' => $request->uf,
         ]);
-        return "Estado atualizado com sucesso.";
+        $request->session()->flash('alert-success', 'Estado atualizado com sucesso.');
+        return redirect()->route('listar_estado');    
     }
 
     public function search(Request $request){

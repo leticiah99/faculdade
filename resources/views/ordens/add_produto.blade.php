@@ -17,18 +17,12 @@
             </li>
         </ul>
 
-    <div class="container-xl">
-        <br></br>
+    <div class="container-xl"> 
+        <br>
 
-        <form action="{{route('adicionar_produto', [$ordemServico->id]) }}" method="post"> 
-        @csrf
-
-<<<<<<< HEAD
         <div class="row">
-=======
-    <form action="{{route('adicionar_produto', [$ordemServico->id]) }}" method="post">
-    @csrf
->>>>>>> b9143ca (:tada: _Não deixa adicionar produto na ordem de serviço quando nao tem no estoque)
+        <form action="{{route('adicionar_produto', [$ordemServico->id]) }}" method="post">
+        @csrf
 
             <div class="input-group col-md-12">
                 <select name="produto" class="form-select">
@@ -40,7 +34,6 @@
  
                 <div class="col-md-4">
                     <div class="input-group">
-<<<<<<< HEAD
                         <input id="quantidade" type="number" class="form-control @error('quantidade') is-invalid @enderror" name="quantidade" value="{{ old('quantidade') }}" required autocomplete="quantidade" placeholder="Quantidade" >
                         @error('quantidade')
                             <span class="invalid-feedback" role="alert">
@@ -52,8 +45,7 @@
                 
                 <button type="submit" class="btn btn-primary">Adicionar</button>
                
-
-             </div>
+            </div>
 
         </div>
 
@@ -66,28 +58,10 @@
                         @endif
                     @endforeach
                 </div> 
-    </div>
-             
-             <br></br>
+            </div>
 
-             
-=======
-                        <input type="text" placeholder="Quantidade" class="form-control" name="quantidade" id="quantidade">
-                    </div>
-                </div>
+             <br>
 
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary">Adicionar</button>
-                </div>
-
-             </div>
-
-             <br></br>
-
-
-
-
->>>>>>> b9143ca (:tada: _Não deixa adicionar produto na ordem de serviço quando nao tem no estoque)
     <div class="col-md-12">
         <h4>Produtos adicionados</h4>
 
@@ -95,13 +69,7 @@
             <div class="alert alert-info">Nenhum produto adicionado.</div>
         @endif
 
-        <div class="flash-message">
-            @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-                @if(Session::has('alert-' . $msg))
-                    <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
-                @endif
-            @endforeach
-        </div>
+        
 
         @if(count($ordemServico->produtos))
 
@@ -130,15 +98,10 @@
                     <td style="width: 10.00%"><a class="btn btn-danger"  href="{{route ('remover_produto', [$ordemServico->id, $produto->id, $produto->pivot->quantidade])}}">Excluir</a></td>
 
                 </tr>
-                    @php
-<<<<<<< HEAD
-                        $valor_total += $produto->pivot->valor; 
-                    @endphp 
-=======
+                    @php  
                         $valor_total += $produto->pivot->valor;
                         $produto->quantidade = $produto->quantidade - $produto->pivot->quantidade;
                     @endphp
->>>>>>> b9143ca (:tada: _Não deixa adicionar produto na ordem de serviço quando nao tem no estoque)
                 @endforeach
             </tbody>
             <tfooter>
@@ -150,15 +113,10 @@
         @endif
     </div>
 
-<<<<<<< HEAD
-   
-    
     </form>
-=======
 
 
-</form>
->>>>>>> b9143ca (:tada: _Não deixa adicionar produto na ordem de serviço quando nao tem no estoque)
+
 </div>
 
 @endsection

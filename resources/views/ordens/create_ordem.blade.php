@@ -4,8 +4,8 @@
 
  
  @section('content')
-     <div class="container">
-         <form action="{{ route('salvar_ordem') }}" method="post"> 
+    <div class="container">
+        <form action="{{ route('salvar_ordem') }}" method="post"> 
          @csrf
          <div class="row">
             <div class="col-md-8">
@@ -88,8 +88,8 @@
               
              <button type="submit" class="btn btn-success mr-2">Cadastrar</button>  
              <a href="{{route ('listar_ordem')}}" class="btn btn-danger"> Cancelar</a>
-      
-     </div>
+        </form>
+    </div>
  @endsection
  
 

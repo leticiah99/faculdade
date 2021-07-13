@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 use App\Models\TipoServico;
 use Illuminate\Http\Request;
@@ -12,12 +11,12 @@ class TipoServicoController extends Controller
         return view('tipos_servicos.list_tipo_serv',['tipos_servicos' => $tipos_servico]);
     }
 
-
-    public function create() {  //Retorna a View para criar um item da tabela
+    public function create() {  
         if (Gate::allows('isAdmin')) {
             return view('tipos_servicos.create_tipo_serv');
         }else {
-            return "Você não tem permissão para realizar esta operação.";
+            $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação..');
+            return redirect()->route('listar_tipo_serv'); 
         }    
     }
 
@@ -28,25 +27,29 @@ class TipoServicoController extends Controller
             'preco' => $request->preco,
             
         ]);
-        return redirect()->route('listar_tipo_serv')->with('success', 'save');
+        $request->session()->flash('alert-success', 'Tipo de serviço cadastrado com sucesso.');
+        return redirect()->route('listar_tipo_serv');
     }
 
     public function destroy($id){
         if (Gate::allows('isAdmin')) {
             $tipos_servico=TipoServico::findOrFail($id);
             $tipos_servico->delete();
-            return "Tipo de serviço excluído com sucesso.";
+            $request->session()->flash('alert-success', 'Tipo de serviço excluído com sucesso.');
+        return redirect()->route('listar_tipo_serv');
         }else {
-            return "Você não tem permissão para realizar esta operação.";
+            $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação..');
+            return redirect()->route('listar_tipo_serv');   
         }    
-    }
+    } 
 
     public function edit($id){
         $tipos_servico = TipoServico::findOrFail($id);
         if (Gate::allows('isAdmin')) {
             return view('tipos_servicos.edit_tipo_serv', ['tipos_servicos' => $tipos_servico]);
         }else {
-            return "Você não tem permissão para realizar esta operação.";
+            $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação..');
+            return redirect()->route('listar_tipo_serv');   
         }    
     }
     public function update(Request $request, $id){
@@ -55,6 +58,7 @@ class TipoServicoController extends Controller
             'nome' => $request->nome,
             'preco' => $request->preco,
         ]);
-        return redirect()->route('listar_tipo_serv')->with('success', 'save');
+        $request->session()->flash('alert-success', 'Tipo de serviço atualizado com sucesso.');
+        return redirect()->route('listar_tipo_serv');
     }
 }

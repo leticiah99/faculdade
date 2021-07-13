@@ -12,13 +12,15 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 
 Auth::routes(); 
 
 //Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware(['auth'])->group(function () {
 
 Route::resource('produtos', 'ProdutoController');
 Route::get('/produtos','ProdutoController@index')->name('listar_produto');
@@ -30,6 +32,8 @@ Route::get('/produtos/excluir/{id}','ProdutoController@destroy')->name('excluir_
 Route::get('/produtos/editar/{id}','ProdutoController@edit')->name('editar_produto');
 Route::post('/produto/editar/{id}','ProdutoController@update')->name('atualizar_produto');
 Route::get('/produto/{id}','ProdutoController@show')->name('detalhar_produto');
+
+
 
 
 
@@ -60,10 +64,6 @@ Route::get('/clientes/excluir/{id}','ClienteController@destroy')->name('excluir_
 Route::get('/clientes/editar/{id}','ClienteController@edit')->name('editar_cliente');
 Route::post('/clientes/editar/{id}','ClienteController@update')->name('atualizar_cliente');
 Route::get('clientes/{id}/relatorio', 'ClienteController@geraPdf')->name('relatorio_cliente');
-
-
-
-//Route::get('/cliente/detalhes/{id}','ClienteController@showDetails')->name('detalhar_cliente');
 
 // ============================================================================================= //
 
@@ -108,7 +108,7 @@ Route::post('/perfil/editar/{id}','UserController@updateProfile')->name('atualiz
 
 Route::get('/usuario/{id}','UserController@show')->name('detalhar_user');
 Route::get('usuarios', 'UserController@index')->name('listar_user');
-Auth::routes();
+
 
 //================================================================================================================//
 Route::resource('ordens', 'OrdemServicoController');
@@ -146,8 +146,7 @@ Route::get('/tipo-servico/excluir/{id}','TipoServicoController@destroy')->name('
 Route::get('/tipo-servico/editar/{id}','TipoServicoController@edit')->name('editar_tipo_serv'); 
 Route::post('/tipo-servico/editar/{id}','TipoServicoController@update')->name('atualizar_tipo_serv');
 
-
-
+});
 
 
 

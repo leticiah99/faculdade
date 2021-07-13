@@ -1,9 +1,6 @@
 @extends('layouts.dashboard') 
 @section('content-title', 'DADOS DO CLIENTE')
-
-
 @section('content')
-
 
     <div class="container-xl">
         @csrf 

@@ -57,7 +57,7 @@ $data_hoje = strtoupper(utf8_encode(strftime('%A, %d de %B de %Y', strtotime('to
 
     .datas{
         margin-left:15px;
-        font-size:11px;
+        font-size:12px;
         font-family:Arial, Helvetica, sans-serif;
         margin-top:5px;
     }
@@ -105,6 +105,10 @@ $data_hoje = strtoupper(utf8_encode(strftime('%A, %d de %B de %Y', strtotime('to
 <div align='center' class='datas'>
 
 </div>
+
+@if(!$ordens)
+<p  align='center' >Nenhuma ordem de serviço encontrada.</p>
+@endif
 
 <table class='table' width='100%' border='1' cellspacing='0' cellpadding='3'>
 			<tr bgcolor='#f9f9f9'>
@@ -156,12 +160,7 @@ $data_hoje = strtoupper(utf8_encode(strftime('%A, %d de %B de %Y', strtotime('to
                     
                 @endforeach
             </tr>            
-            </table>
-
-            <div class='areaTotais'>
-  
-             <div align='right'><b>Total :</b> <span >R$ {{$ordem->sum('valor_pago')}}</span></div> 
-            </div>           
+            </table>        
 
 </body>
 </html>

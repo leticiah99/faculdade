@@ -28,8 +28,10 @@ use Illuminate\Http\Request;
 
             if (Gate::allows('isAdmin')) 
                 return view('produtos.create_produto',  compact('produto', 'categorias'));
-            else 
-                return "Você não tem permissão para realizar esta operação.";   
+            else {
+            $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação..');
+            return redirect()->route('listar_produto');
+            }
         }
     
         public function store(Request $request){
@@ -75,7 +77,8 @@ use Illuminate\Http\Request;
                 return redirect()->route('listar_produto');
 
             } else {
-                return "Você não tem permissão para realizar esta operação.";
+                $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação..');
+                return redirect()->route('listar_produto');
             }    
         }
 
@@ -85,7 +88,8 @@ use Illuminate\Http\Request;
                     $produto = Produto::findOrFail($id); 
                     return view('produtos.edit_produto', compact('produto', 'categorias')); 
                 } else {
-                    return "Você não tem permissão para realizar esta operação.";
+                    $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação..');
+                    return redirect()->route('listar_produto');
                 }    
         } 
 

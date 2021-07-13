@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\CategoriaProduto;
 use App\Models\Produto;
@@ -17,9 +15,10 @@ class CategoriaProdutoController extends Controller
 
     public function create() {  //Retorna a View para criar um item da tabela
         if (Gate::allows('isAdmin')) {
-        return view('produtos.create_categoria');
+            return view('produtos.create_categoria');
         } else {
-            return "Você não tem permissão para realizar esta operação.";
+            $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação..');
+            return redirect()->route('listar_categoria');        
         }    
     }
 
@@ -29,12 +28,8 @@ class CategoriaProdutoController extends Controller
             'nome' => $request->nome,
             
         ]);
-        //return "Categoria cadastrada com sucesso";
-        //return redirect()->route('listar_categoria')->with('Categoria cadastrada com sucesso.');
-        //return redirect('/dashboard')->with('status', 'Profile updated!');
-        return redirect()->route('listar_categoria')->with('success', 'save');
-
-
+        $request->session()->flash('alert-success', 'Categoria de produto cadastrada com sucesso.');
+        return redirect()->route('listar_categoria');
     }
 
     public function show(){
@@ -53,13 +48,15 @@ class CategoriaProdutoController extends Controller
 
     }
 
-    public function destroy($id){
+    public function destroy($id, Request $request){
         if (Gate::allows('isAdmin')) {
             $categoria=CategoriaProduto::findOrFail($id);
             $categoria->delete();
-            return "Categoria excluída com sucesso.";
+            $request->session()->flash('alert-success', 'Categoria de produto excluída com sucesso.');
+            return redirect()->route('listar_categoria');
         } else {
-            return "Você não tem permissão para realizar esta operação.";
+            $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação..');
+            return redirect()->route('listar_categoria');
         }    
     }
 
@@ -68,8 +65,8 @@ class CategoriaProdutoController extends Controller
         if (Gate::allows('isAdmin')) {
         return view('produtos.edit_categoria', ['categoria' => $categoria]);
         } else {
-            return "Você não tem permissão para realizar esta operação.";
-        }    
+            $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação..');
+            return redirect()->route('listar_categoria');        }    
     }
 
     public function update(Request $request, $id){
@@ -77,6 +74,7 @@ class CategoriaProdutoController extends Controller
         $categoria->update([
             'nome' => $request->nome,
         ]);
-        return redirect()->route('listar_categoria')->with('success', 'save');
+        $request->session()->flash('alert-success', 'Categoria de produto atualizada com sucesso.');
+        return redirect()->route('listar_categoria');
     }
 }

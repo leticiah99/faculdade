@@ -1,15 +1,5 @@
 <?php
-/*
-namespace App\Http\Controllers;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Http\Request;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-*/
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -41,7 +31,8 @@ class UserController extends Controller
         if (Gate::allows('isAdmin')) {
             return view('users.create_user');
         } else {
-            return "Você não tem permissão para realizar esta operação.";
+            $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação..');
+            return redirect()->route('listar_user');
         }    
     }
   
@@ -65,10 +56,10 @@ class UserController extends Controller
             'password' =>  bcrypt('password')
                    
         ]); 
-        return view('users.list_user');
-    }
+        $request->session()->flash('alert-success', 'Usuário cadastrado com sucesso.');
+        return redirect()->route('listar_user');
 
-    
+    }
     
     public function show(){
         if (Gate::allows('isAdmin')) {
@@ -76,7 +67,8 @@ class UserController extends Controller
         return view('users.list_user',['users' => $users]);
         }
         else {
-          return "Você não tem permissão para realizar esta operação."; // return view de dados pessoais 
+            $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação..');
+            return redirect()->route('listar_user');
         }
     }
 
@@ -84,16 +76,17 @@ class UserController extends Controller
         if (Gate::allows('isAdmin')) {
             $usuario=User::findOrFail($id);
             $usuario->delete();
-            return "Usuário excluído com sucesso.";
+            $request->session()->flash('alert-success', 'Usuário excluído com sucesso.');
+            return redirect()->route('listar_user');
         } else {
-            return "Você não tem permissão para realizar esta operação.";
+            $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação..');
+            return redirect()->route('listar_user');
         }    
     }
 
     public function edit($id){
         $user = User::findOrFail($id); 
-        if (Gate::allows('isAdmin')) {
-            
+        if (Gate::allows('isAdmin')) {        
             return view('users.edit_useradm', ['user' => $user]);
        
         } else { 
@@ -109,9 +102,15 @@ class UserController extends Controller
            'email' => $request->email,
            'role' => $request->role,
         ]);
-        return "Usuário atualizado com sucesso."; 
+        if($user->update){
+        $request->session()->flash('alert-success', 'Usuário atualizado com sucesso.');
+        return redirect()->route('listar_user');
+        }
+        else{
+            $request->session()->flash('alert-danger', 'Erro ao atualizar os dados.');
+            return redirect()->route('listar_user');
+        }
 
-        //return redirect()->route('detalhar_user')->with('success', 'save');
     }
 
     public function editProfile($id){
@@ -127,11 +126,10 @@ class UserController extends Controller
            'email' => $request->email,
            'password' => $request->password,
         ]);
-        return "Perfil atualizado com sucesso."; 
+        $request->session()->flash('alert-success', 'Perfil atualizado com sucesso.');
+        return redirect()->route('detalhar_user');
 
-        //return redirect()->route('detalhar_user')->with('success', 'save');
     }
-
 
     public function search(Request $request){
         $users = $this->repository->search($request->filter);

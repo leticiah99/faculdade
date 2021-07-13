@@ -71,7 +71,8 @@ class OrdemServicoController extends Controller
             $request->session()->flash('alert-success', 'Ordem de serviço excluída com sucesso.');
             return redirect()->route('listar_ordem');
         }else {
-            return "Você não tem permissão para realizar esta operação.";
+            $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação.');
+            return redirect()->route('listar_ordem');
         }
     }
 
@@ -107,7 +108,6 @@ class OrdemServicoController extends Controller
             'forma_pagamento' => $request->forma_pagamento,
             'data_final' => $request->data_final,
             'valor_pago' => $request->valor_pago,
-
         ]);
 
         $request->session()->flash('alert-success', 'Ordem de serviço finalizada com sucesso.');
@@ -121,120 +121,125 @@ class OrdemServicoController extends Controller
         $produtos = Produto::all();
 
             if(!$produtos){
-                return "Nenhum produto encontrado";
+                $request->session()->flash('alert-danger', 'Nenhum produto encontrado.');
+                return view('ordens.add_produto',['ordemServico' => $ordemServico, 'produtos' => $produtos]);
             }
             if(!$ordemServico){
                 return "Erro ao adicionar produto";
+                $request->session()->flash('alert-danger', 'Erro ao adicionar produto.');
+                return view('ordens.add_produto',['ordemServico' => $ordemServico, 'produtos' => $produtos]);
             }
-         return view('ordens.add_produto',['ordemServico' => $ordemServico, 'produtos' => $produtos]);
+            return view('ordens.add_produto',['ordemServico' => $ordemServico, 'produtos' => $produtos]);
     }
 
     public function addProdutoSave($id, Request $request){
+        $request->validate([
+            'quantidade' => 'required|numeric|min:1|not_in:0',
+        ]);
 
         $ordemServico = OrdemServico::find($id);
 
         if(!$ordemServico){
             return "Erro ao adicionar produto";
+            $request->session()->flash('alert-danger', 'Erro ao adicionar produto.');
+            return redirect()->route('adicionar_produto', ['id' => $ordemServico->id]);
         }
 
         $produto = Produto::find($request->produto);
         $total = $produto->quantidade - $request->quantidade;
 
         if($total <= 0){
-            $request->session()
-                ->flash('alert-danger', 'Produtos insuficientes no estoque.');
-                return redirect()->route('adicionar_produto', ['id' => $ordemServico->id]);
+            $request->session()->flash('alert-danger', 'Produto insuficiente no estoque.');
+            return redirect()->route('adicionar_produto', ['id' => $ordemServico->id]);
         }else{
             $produto->update(['quantidade' => $total]);
             $valor_final = $produto->valor_unit_venda * $request->quantidade;
-            $ordemServico
-                ->produtos()
-                ->attach($produto,  ['valor' => $valor_final, 'quantidade' => $request->quantidade ]);
+            $ordemServico->produtos()->attach($produto,  ['valor' => $valor_final, 'quantidade' => $request->quantidade ]);
 
-                return redirect()->route('adicionar_produto', ['id' => $ordemServico->id]);
+            return redirect()->route('adicionar_produto', ['id' => $ordemServico->id]);
 
         }
     }
 
-    public function removeProduto($id, $produto_id){
+    public function removeProduto($id, $produto_id, Request $request){
 
         $ordemServico = OrdemServico::with('produtos')->find($id);
 
-        if(!$ordemServico)
-            return "Erro ao remover produto";
-
+        if(!$ordemServico){
+            $request->session()->flash('alert-danger', 'Erro ao remover produto.');
+            return redirect()->route('adicionar_produto', ['id' => $ordemServico->id]);
+        }
 
         $produto = Produto::find($produto_id);
         $total = $produto->quantidade + $request->quantidade;
-
-        var_dump($total);
-        return;
-
-        if(!$produto)
-            return "Erro ao remover o produto.";
-
+        if(!$produto){
+            $request->session()->flash('alert-danger', 'Erro ao remover produto.');
+            return redirect()->route('adicionar_produto', ['id' => $ordemServico->id]);
+        }
         $ordemServico->produtos()->detach($produto);
-
-
         return redirect()->route('adicionar_produto', ['id' => $ordemServico->id]);
-
     }
-
+ 
 //==================================================================================================//
     public function addServico($id){
         $ordemServico = OrdemServico::find($id);
         $servicos = TipoServico::all();
 
             if(!$servicos){
-                return "Nenhum serviço encontrado";
+                $request->session()->flash('alert-danger', 'Nenhum serviço encontrado.');
+                return view('ordens.add_servico',['ordemServico' => $ordemServico, 'servicos' => $servicos]);
             }
             if(!$ordemServico){
-                return "Erro ao adicionar produto";
+                $request->session()->flash('alert-danger', 'Erro ao adicionar produto.');
+                return view('ordens.add_servico',['ordemServico' => $ordemServico, 'servicos' => $servicos]);
             }
-        return view('ordens.add_servico',['ordemServico' => $ordemServico, 'servicos' => $servicos]);
+            return view('ordens.add_servico',['ordemServico' => $ordemServico, 'servicos' => $servicos]);
     }
 
     public function addServicoSave($id, Request $request){
+        $request->validate([
+            'quantidade' => 'required|numeric|min:1|not_in:0',
+        ]);
 
         $ordemServico = OrdemServico::find($id);
 
         if(!$ordemServico){
-            return "Erro ao adicionar servico";
+            $request->session()->flash('alert-danger', 'Erro ao adicionar serviço.');
+            return redirect()->route('adicionar_servico', ['id' => $ordemServico->id]);
         }
 
         $servico = TipoServico::find($request->servico);
-
         $valor_final = $servico->preco * $request->quantidade;
-
-
         $ordemServico->servicos()->attach($servico, ['valor' => $valor_final, 'quantidade' => $request->quantidade]);
 
         return redirect()->route('adicionar_servico', ['id' => $ordemServico->id]);
 
     }
 
-    public function removeServico($id, $tipo_servico_id){
+    public function removeServico($id, $tipo_servico_id, Request $request){
 
         $ordemServico = OrdemServico::with('servicos')->find($id);
 
-        if(!$ordemServico)
-            return "Erro ao remover serviço";
+        if(!$ordemServico){
+            $request->session()->flash('alert-danger', 'Erro ao remover serviço.');
+            return redirect()->route('adicionar_servico', ['id' => $ordemServico->id]);
+        }
 
         $servico = TipoServico::find($tipo_servico_id);
 
-        if(!$servico)
-            return "Erro ao remover o serviço.";
+        if(!$servico){
+            $request->session()->flash('alert-danger', 'Erro ao remover serviço.');
+            return redirect()->route('adicionar_servico', ['id' => $ordemServico->id]);
+        }
 
         $ordemServico->servicos()->detach($servico);
 
         return redirect()->route('adicionar_servico', ['id' => $ordemServico->id]);
-
     }
-
 
     public function search(Request $request){
         //$status = '%' .$request->status;
-        $ordens = OrdemServico::where('data_inicial', '=', $request->data_inicial)->orWhere('status', '=', $request->status)->paginate(10);
+        $ordens = OrdemServico::where('data_inicial', '=', $request->data_inicial)->orWhere('status', '=', $request->status)->orderBy('data_inicial', 'DESC')->paginate(10);
 
         return view('ordens.list_ordem', ['ordens' => $ordens]);
     }
@@ -244,20 +249,18 @@ class OrdemServicoController extends Controller
         $ordens = OrdemServico::orderBy('data_inicial', 'ASC')->get();
         $pdf = PDF::loadview('ordens.relatorio_geral', compact('ordens'));
 
-       return $pdf->setPaper('a4')->stream('Relatório.pdf');
-    }
-
-
-    public function geraPdfEsp(Request $request){
-        $status = '%' .$request->status;
-        $data_inicial = $request->dataInicial;
-        $data_final = $request->dataFinal;
-        $ordens = OrdemServico::where('data_inicial', '>=', $data_inicial)->where('data_inicial', '<=', $data_final)->orWhere('status', 'LIKE', $status)->get();
-
-        $pdf = PDF::loadview('ordens.relatorio', ['ordens' => $ordens,  'dataInicial' => $data_inicial, 'dataFinal' => $data_final]);
-
         return $pdf->setPaper('a4')->stream('Relatório.pdf');
     }
 
+    public function geraPdfEsp(Request $request){
+        //$status = '%' .$request->status;
+        $data_inicial = $request->dataInicial;
+        $data_final = $request->dataFinal;
+        $ordens = OrdemServico::where('data_inicial', '>=', $data_inicial)->where('data_inicial', '<=', $data_final)->where('status', '=', $request->status)->get();
+
+        $pdf = PDF::loadview('ordens.relatorio', ['ordens' => $ordens,  'dataInicial' => $data_inicial, 'dataFinal' => $data_final,  'status' => $request->status]);
+
+        return $pdf->setPaper('a4')->stream('Relatório.pdf');
+    } 
 }
 ?>

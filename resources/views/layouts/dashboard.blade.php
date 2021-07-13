@@ -197,8 +197,7 @@ use App\Models\User;
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <a class="nav-link {{ request()->is('perfil*') ? 'active' : ''  }}" href="{{route('editar_perfil', $user->id ?? '' )}}">
-            
+            <a class="nav-link {{ request()->is('perfil*') ? 'active' : ''  }}" href="{{route('editar_perfil', Auth::user()->id ?? '' )}}">          
               <span data-feather="file-text"></span>
               Meu Perfil   
             </a>
@@ -220,6 +219,13 @@ use App\Models\User;
     </main>
   </div>
 </div>
+
+
+
+
+
+
+
 
 
     <script src="/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>

@@ -1,9 +1,6 @@
 @extends('layouts.dashboard')
 @section('content-title', 'ADICIONAR SERVIÇOS')
-
-
 @section('content')
-
 
     <ul class="nav nav-tabs">
         <li class="nav-item">
