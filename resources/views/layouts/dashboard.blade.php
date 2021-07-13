@@ -22,7 +22,7 @@ use App\Models\User;
 <!-- Styles -->
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-@yield('scriptjs')
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -215,6 +215,7 @@ use App\Models\User;
       @yield('content')
       <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
       <script type="text/javascript" src="{{ asset('js/mask.js') }}"></script>
+      @yield('scriptjs')
       </div>
     </main>
   </div>

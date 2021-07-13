@@ -155,7 +155,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
+                            <div class="col-md-9">
                                 <div class="form-group">
                                     <label for=""> CLIENTE</label>
                                     <input class="form-control" type="text" value="{{$ordemServico->cliente->nome}}" disabled>
@@ -225,8 +225,14 @@
                                                     }      
                                                 $valor_total = $valorP + $valorS;
                                             }
-                                            if(!count($ordemServico->produtos))
-                                                $valor_total = $valorS;               
+                                            if(!count($ordemServico->produtos)){
+                                                foreach($ordemServico->servicos as $servico){   
+                                                    $valorS += $servico->pivot->valor;                    
+                                                    $valor_total = $valorS;
+
+                                                } 
+                                            }
+                                                               
                                     @endphp        
                                     <input id="valor_pago" type="text" class="form-control @error('valor_pago') is-invalid @enderror" name="valor_pago"  value="{{$valor_total}}" required autocomplete="valor_pago" >
                                     @error('valor_pago')

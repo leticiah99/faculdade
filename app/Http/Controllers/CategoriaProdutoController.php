@@ -13,14 +13,14 @@ class CategoriaProdutoController extends Controller
         return view('produtos.list_categoria', compact('categorias', 'total'));
     }
 
-    public function create() {  //Retorna a View para criar um item da tabela
+    public function create(Request $request) {  
         if (Gate::allows('isAdmin')) {
             return view('produtos.create_categoria');
         } else {
             $request->session()->flash('alert-danger', 'Você não tem permissão para realizar esta operação..');
             return redirect()->route('listar_categoria');        
         }    
-    }
+    } 
 
     public function store(Request $request){
         CategoriaProduto::create([
@@ -60,7 +60,7 @@ class CategoriaProdutoController extends Controller
         }    
     }
 
-    public function edit($id){
+    public function edit($id, Request $request){
         $categoria = CategoriaProduto::findOrFail($id);
         if (Gate::allows('isAdmin')) {
         return view('produtos.edit_categoria', ['categoria' => $categoria]);
