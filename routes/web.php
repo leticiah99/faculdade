@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 
-Auth::routes(); 
+Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
 
@@ -38,13 +38,13 @@ Route::get('/produto/{id}','ProdutoController@show')->name('detalhar_produto');
 
 
 // ============================================================================================= //
- 
- 
+
+
 Route::resource('categorias', 'CategoriaProdutoController');
 Route::get('/categorias','CategoriaProdutoController@index')->name('listar_categoria');
 Route::any('/categorias/pesquisar', 'CategoriaProdutoController@search')->name('pesquisar_categoria');
 Route::get('/categoria/novo','CategoriaProdutoController@create');
-Route::post('/categoria/novo','CategoriaProdutoController@store')->name('salvar_categoria'); 
+Route::post('/categoria/novo','CategoriaProdutoController@store')->name('salvar_categoria');
 Route::get('/categorias/{id}','CategoriaProdutoController@show')->name('detalhar_categoria');
 Route::get('/categorias/excluir/{id}','CategoriaProdutoController@destroy')->name('excluir_categoria');
 Route::get('/categorias/editar/{id}','CategoriaProdutoController@edit')->name('editar_categoria');
@@ -56,8 +56,8 @@ Route::post('/categorias/editar/{id}','CategoriaProdutoController@update')->name
 Route::resource('clientes', 'ClienteController');
 Route::get('clientes', 'ClienteController@index')->name('listar_cliente');
 Route::any('/clientes/pesquisar', 'ClienteController@search')->name('pesquisar_cliente');
-Route::get('/cliente/novo','ClienteController@create'); 
-Route::post('/cliente/novo','ClienteController@store')->name('salvar_cliente'); 
+Route::get('/cliente/novo','ClienteController@create');
+Route::post('/cliente/novo','ClienteController@store')->name('salvar_cliente');
 Route::get('/clientes/{id}','ClienteController@show')->name('detalhar_cliente');
 
 Route::get('/clientes/excluir/{id}','ClienteController@destroy')->name('excluir_cliente');
@@ -115,7 +115,7 @@ Route::resource('ordens', 'OrdemServicoController');
 Route::get('/ordens', 'OrdemServicoController@index')->name('listar_ordem');
 Route::any('/ordens/pesquisar', 'OrdemServicoController@search')->name('pesquisar_ordem');
 Route::get('/ordem/cadastrar','OrdemServicoController@create');
-Route::post('/ordem/cadastrar','OrdemServicoController@store')->name('salvar_ordem'); 
+Route::post('/ordem/cadastrar','OrdemServicoController@store')->name('salvar_ordem');
 Route::get('/ordens/{id}','OrdemServicoController@show')->name('detalhar_ordem');
 Route::get('/ordem/excluir/{id}','OrdemServicoController@destroy')->name('excluir_ordem');
 Route::get('/ordens/editar/{id}','OrdemServicoController@edit')->name('editar_ordem');
@@ -129,7 +129,7 @@ Route::get('/relatorio/os', 'RelatorioController@gerarRelatorioOs');
 
 Route::get('/ordens/{id}/adicionar-produtos','OrdemServicoController@addProduto')->name('adicionar_produto');
 Route::post('/ordens/{id}/adicionar-produtos','OrdemServicoController@addProdutoSave')->name('salvar_produto_os');
-Route::get('/ordens/{id}/remover-produtos/{produto_id}','OrdemServicoController@removeProduto')->name('remover_produto');
+Route::get('/ordens/{id}/remover-produtos/{produto_id}/{quantidade_produto}/','OrdemServicoController@removeProduto')->name('remover_produto');
 
 Route::get('/ordens/{id}/adicionar-servicos','OrdemServicoController@addServico')->name('adicionar_servico');
 Route::post('/ordens/{id}/adicionar-servicos','OrdemServicoController@addServicoSave')->name('salvar_servico_os');
@@ -143,7 +143,7 @@ Route::any('/tipos-servico/pesquisar', 'TipoServicoController@search')->name('pe
 Route::get('/tipo-servico/novo','TipoServicoController@create');
 Route::post('/tipo-servico/novo','TipoServicoController@store')->name('salvar_tipo_serv');
 Route::get('/tipo-servico/excluir/{id}','TipoServicoController@destroy')->name('excluir_tipo_serv');
-Route::get('/tipo-servico/editar/{id}','TipoServicoController@edit')->name('editar_tipo_serv'); 
+Route::get('/tipo-servico/editar/{id}','TipoServicoController@edit')->name('editar_tipo_serv');
 Route::post('/tipo-servico/editar/{id}','TipoServicoController@update')->name('atualizar_tipo_serv');
 
 });
