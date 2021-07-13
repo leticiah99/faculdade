@@ -32,7 +32,12 @@
                 <div class="col-md-6">
                     <div class="form-group">               
                         <label for="data_inicial">DATA</label>
-                        <input type="date" class="form-control" name="data_inicial" id="data_inicial"  value="{{ \Carbon\Carbon::createFromTimestamp(strtotime($ordemServico->data_inicial))->format('Y-m-d')}}">        
+                        <input id="data_inicial" type="date" class="form-control @error('data_inicial') is-invalid @enderror" name="data_inicial" min="<?= date('Y-m-d'); ?>" value="{{ \Carbon\Carbon::createFromTimestamp(strtotime($ordemServico->data_inicial))->format('Y-m-d')}}" required autocomplete="data_inicial" >
+                        @error('data_inicial')
+                            <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror        
                     </div>  
                 </div>
 
@@ -40,7 +45,12 @@
                 <div class="col-md-6">
                     <div class="form-group">               
                         <label for="data_inicial">HORA</label>
-                        <input type="time" class="form-control" name="hora" id="hora"  value="{{$ordemServico->hora}}">        
+                        <input id="hora" type="time" class="form-control @error('hora') is-invalid @enderror" name="hora" value="{{$ordemServico->hora}}" required autocomplete="hora">
+                        @error('hora')
+                            <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror      
                     </div>
                 </div>
             </div>
@@ -48,7 +58,12 @@
  
             <div class="form-group">               
                 <label for="descricao">DESCRIÇÃO</label>
-                <input type="text" class="form-control" name="descricao" id="descricao"  value="{{$ordemServico->descricao}}">        
+                <input id="descricao" type="text" class="form-control @error('descricao') is-invalid @enderror" name="descricao" value="{{$ordemServico->descricao}}" required autocomplete="descricao">  
+                        @error('descricao')
+                            <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror           
             </div>  
         
             <div class="form-group">

@@ -11,7 +11,7 @@ class TipoServicoController extends Controller
         return view('tipos_servicos.list_tipo_serv',['tipos_servicos' => $tipos_servico]);
     }
 
-    public function create() {  
+    public function create(Request $request) {  
         if (Gate::allows('isAdmin')) {
             return view('tipos_servicos.create_tipo_serv');
         }else {
@@ -31,7 +31,7 @@ class TipoServicoController extends Controller
         return redirect()->route('listar_tipo_serv');
     }
 
-    public function destroy($id){
+    public function destroy($id, Request $request){
         if (Gate::allows('isAdmin')) {
             $tipos_servico=TipoServico::findOrFail($id);
             $tipos_servico->delete();

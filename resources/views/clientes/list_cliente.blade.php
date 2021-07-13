@@ -56,7 +56,7 @@
                 </tr>
             </tbody>
         </table>
-        {{ $clientes->links() }}
+        {{ $clientes->links() }} 
     </div>
 </div>
 @endsection

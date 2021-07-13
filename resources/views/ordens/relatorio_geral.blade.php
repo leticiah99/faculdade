@@ -136,9 +136,7 @@ $data_hoje = strtoupper(utf8_encode(strftime('%A, %d de %B de %Y', strtotime('to
                     <td>
                     {{$ordem->descricao}}
                     </td>
-                    <td>
-                    {{$ordem->status}}
-                    </td>
+                    
 
                     <td>
                     
@@ -146,6 +144,10 @@ $data_hoje = strtoupper(utf8_encode(strftime('%A, %d de %B de %Y', strtotime('to
                     <p>{{$servico->nome}} </p>             
                     @endforeach 
                     </td>  
+
+                    <td>
+                    {{$ordem->status}}
+                    </td>
 
                     @if($ordem->valor_pago == null)
                     <td>

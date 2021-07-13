@@ -19,7 +19,7 @@ use Illuminate\Http\Request;
         }   
 
         public function index(Produto $produto){
-            $produtos = $produto->paginate(10);                        
+            $produtos = $produto->paginate(8);                        
             return view('produtos.list_produto', compact('produtos'));
         } 
 
@@ -40,10 +40,11 @@ use Illuminate\Http\Request;
                 'nome' => 'required',
                 'voltagem' => 'required',
                 'modelo' => 'required',
-                'quantidade' => 'required|numeric',
+                'quantidade' => 'required|numeric|min:1|not_in:0',
                 'valor_unit_custo' =>  'required',
                 'valor_unit_venda' =>    'required',
                 'categoria_produto_id' => 'required',
+               
             ]);
 
             Produto::create([

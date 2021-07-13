@@ -4,9 +4,6 @@
 
     <div class="container-xl">
         @csrf 
-
-        <a href="{{route('relatorio_cliente',  ['id' => $cliente->id])}}" target="_blank" > Gerar relatório do cliente </a> 
-
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">

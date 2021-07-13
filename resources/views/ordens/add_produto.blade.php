@@ -31,7 +31,7 @@
                         <option value="{{$produto->id}}">{{$produto->nome}}</option>     
                     @endforeach
                 </select>
- 
+  
                 <div class="col-md-4">
                     <div class="input-group">
                         <input id="quantidade" type="number" class="form-control @error('quantidade') is-invalid @enderror" name="quantidade" value="{{ old('quantidade') }}" required autocomplete="quantidade" placeholder="Quantidade" >
@@ -44,7 +44,7 @@
                 </div>        
                 
                 <button type="submit" class="btn btn-primary">Adicionar</button>
-               
+                
             </div>
 
         </div>

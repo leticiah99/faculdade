@@ -135,15 +135,17 @@ De {{$dataInicial}} à {{$dataFinal}}
                     <td>
                     {{$ordem->descricao}}
                     </td>
-                    <td>
-                    {{$ordem->status}}
-                    </td>
+                    
 
                     <td>                   
                     @foreach($ordem->servicos as $servico)
                     <p>{{$servico->nome}} </p>             
                     @endforeach 
                     </td>  
+
+                    <td>
+                    {{$ordem->status}}
+                    </td>
 
                     @if($ordem->valor_pago == null)
                     <td>

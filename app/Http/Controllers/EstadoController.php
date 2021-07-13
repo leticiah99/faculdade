@@ -25,7 +25,7 @@ class EstadoController extends Controller
         return view('enderecos.list_estado', compact('estados', 'total'));
     }
 
-    public function create() {  //Retorna a View para criar um item da tabela
+    public function create(Request $request) {  //Retorna a View para criar um item da tabela
         if (Gate::allows('isAdmin')) {
         return view('enderecos.create_estado');
         }else {
@@ -44,7 +44,7 @@ class EstadoController extends Controller
         return redirect()->route('listar_estado'); 
     }
 
-    public function show(){
+    public function show(Request $request){
         if (Gate::allows('isAdmin')) {
             $estados = Estado::all();
             return view('enderecos.list_estado',['estados' => $estados]);
@@ -65,7 +65,7 @@ class EstadoController extends Controller
 
     }
 
-    public function destroy($id){
+    public function destroy($id, Request $request){
         if (Gate::allows('isAdmin')) {
             $estado=Estado::findOrFail($id);
             $estado->delete();
@@ -77,7 +77,7 @@ class EstadoController extends Controller
         }    
     }
 
-    public function edit($id){
+    public function edit($id, Request $request){
         $estado = Estado::findOrFail($id);
         if (Gate::allows('isAdmin')) {
             return view('enderecos.edit_estado', ['estado' => $estado]);

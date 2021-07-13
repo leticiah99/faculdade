@@ -11,7 +11,7 @@ use PDF;
 use DB;
 
 class ClienteController extends Controller
-{
+{ 
     protected $request;
     private $repository;
 

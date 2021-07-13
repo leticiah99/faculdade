@@ -39,16 +39,16 @@ class UserController extends Controller
     
     protected function store(Request $request)
     {
-        $this->validate($request,[
-            'name' => 'required',
-            'phone' => 'required',
-            'email' => 'required',
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'phone' => 'required|string|max:20',
+            'email' => 'required|email|max:100',
             'role' => 'required',   
-            //'password' => 'required',
+            'password' => 'required|min:8|confirmed',
              
         ]);
-        
-        return User::create([
+          
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -72,7 +72,7 @@ class UserController extends Controller
         }
     }
 
-    public function destroy($id){
+    public function destroy($id, Request $request){
         if (Gate::allows('isAdmin')) {
             $usuario=User::findOrFail($id);
             $usuario->delete();
@@ -102,16 +102,11 @@ class UserController extends Controller
            'email' => $request->email,
            'role' => $request->role,
         ]);
-        if($user->update){
         $request->session()->flash('alert-success', 'Usuário atualizado com sucesso.');
         return redirect()->route('listar_user');
-        }
-        else{
-            $request->session()->flash('alert-danger', 'Erro ao atualizar os dados.');
-            return redirect()->route('listar_user');
-        }
+        
 
-    }
+    } 
 
     public function editProfile($id){
         $user = User::findOrFail($id);   
