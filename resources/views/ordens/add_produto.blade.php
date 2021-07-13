@@ -18,7 +18,7 @@
         </ul>
 
     <div class="container-xl">
-        <br>
+        <br></br>
 
         <form action="{{route('adicionar_produto', [$ordemServico->id]) }}" method="post">
         @csrf
@@ -48,14 +48,22 @@
             </div>
         </div>
 
-        <div class="col-md-12">
+
+    <div class="col-md-12">
+</br>
         <h4>Produtos adicionados</h4>
 
         @if(!count($ordemServico->produtos))
             <div class="alert alert-info">Nenhum produto adicionado.</div>
         @endif
 
-
+        <div class="flash-message">
+            @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+                @if(Session::has('alert-' . $msg))
+                    <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+                @endif
+            @endforeach
+        </div>
 
         @if(count($ordemServico->produtos))
 
